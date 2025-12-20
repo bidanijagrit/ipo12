@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IPO JSS | Trade GMP. Trade Smart.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes shimmer {
+      0% { background-position: -1000px 0; }
+      100% { background-position: 1000px 0; }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.4), 0 0 40px rgba(16, 185, 129, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(124, 58, 237, 0.6), 0 0 80px rgba(16, 185, 129, 0.5); }
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes particleFloat {
+      0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100vh) translateX(50px) rotate(360deg); opacity: 0; }
+    }
+    @keyframes progressBar {
+      from { width: 0%; }
+      to { width: 100%; }
+    }
+    :root {
+      --bg: #0a0e1a;
+      --card: rgba(15, 23, 42, 0.85);
+      --muted: #94a3b8;
+      --accent: #7c3aed;
+      --accent-2: #10b981;
+      --accent-3: #3b82f6;
+      --border: rgba(255, 255, 255, 0.08);
+      --chip: rgba(30, 41, 59, 0.6);
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.6);
+    }
+    * { 
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      background: 
+        radial-gradient(circle at 5% 10%, rgba(124, 58, 237, 0.2), transparent 30%),
+        radial-gradient(circle at 95% 5%, rgba(16, 185, 129, 0.18), transparent 28%),
+        radial-gradient(circle at 50% 90%, rgba(59, 130, 246, 0.15), transparent 35%),
+        linear-gradient(180deg, #0a0e1a 0%, #0f172a 50%, #0a0e1a 100%);
+      background-attachment: fixed;
+      color: white;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: 
+        radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.03) 1px, transparent 0);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .splash {
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(124, 58, 237, 0.3), transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.25), transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.2), transparent 40%),
+        linear-gradient(135deg, #0a0e1a 0%, #0f172a 50%, #0a0e1a 100%);
+      display: grid;
+      place-items: center;
+      z-index: 9999;
+      transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), visibility 1s;
+      overflow: hidden;
+    }
+    .splash.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .splash-particles {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .splash-particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: linear-gradient(135deg, #7c3aed, #10b981);
+      border-radius: 50%;
+      opacity: 0;
+      animation: particleFloat 8s ease-in-out infinite;
+    }
+    .splash-particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 10s; }
+    .splash-particle:nth-child(2) { left: 20%; animation-delay: 1s; animation-duration: 12s; }
+    .splash-particle:nth-child(3) { left: 30%; animation-delay: 2s; animation-duration: 9s; }
+    .splash-particle:nth-child(4) { left: 40%; animation-delay: 0.5s; animation-duration: 11s; }
+    .splash-particle:nth-child(5) { left: 50%; animation-delay: 1.5s; animation-duration: 13s; }
+    .splash-particle:nth-child(6) { left: 60%; animation-delay: 2.5s; animation-duration: 10s; }
+    .splash-particle:nth-child(7) { left: 70%; animation-delay: 0.8s; animation-duration: 12s; }
+    .splash-particle:nth-child(8) { left: 80%; animation-delay: 1.8s; animation-duration: 11s; }
+    .splash-particle:nth-child(9) { left: 90%; animation-delay: 3s; animation-duration: 9s; }
+    .splash-content {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      padding: 40px;
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(30px) saturate(180%);
+      border-radius: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 
+        0 40px 100px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      animation: fadeInScale 1s cubic-bezier(0.4, 0, 0.2, 1);
+      min-width: 320px;
+    }
+    .splash-logo {
+      width: 140px;
+      height: 140px;
+      margin: 0 auto 32px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(16, 185, 129, 0.3));
+      padding: 16px;
+      box-shadow: 
+        0 30px 80px rgba(124, 58, 237, 0.5),
+        0 0 0 2px rgba(255, 255, 255, 0.1),
+        inset 0 2px 10px rgba(255, 255, 255, 0.1);
+      animation: fadeInScale 1s ease-out 0.2s both, float 3s ease-in-out infinite 1.5s, glow 2s ease-in-out infinite 2s;
+      position: relative;
+    }
+    .splash-logo::before {
+      content: "";
+      position: absolute;
+      inset: -4px;
+      border-radius: 32px;
+      background: linear-gradient(135deg, #7c3aed, #10b981, #3b82f6);
+      background-size: 200% 200%;
+      animation: gradientShift 3s ease infinite;
+      opacity: 0.3;
+      z-index: -1;
+      filter: blur(20px);
+    }
+    .splash-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 20px;
+      filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+    }
+    .splash-title {
+      font-size: 42px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #7c3aed, #10b981, #3b82f6, #7c3aed);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+      animation: fadeInUp 1s ease-out 0.4s both, gradientShift 3s ease infinite 1.5s;
+      text-shadow: 0 0 40px rgba(124, 58, 237, 0.3);
+    }
+    .splash-tagline {
+      color: #cbd5e1;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 40px;
+      letter-spacing: 0.5px;
+      animation: fadeInUp 1s ease-out 0.6s both;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    .splash-loader-container {
+      margin-bottom: 24px;
+    }
+    .splash-loader {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      border: 5px solid rgba(255, 255, 255, 0.1);
+      border-top-color: #7c3aed;
+      border-right-color: #10b981;
+      border-bottom-color: #3b82f6;
+      animation: spin 1s linear infinite;
+      position: relative;
+    }
+    .splash-loader::before {
+      content: "";
+      position: absolute;
+      inset: -5px;
+      border-radius: 50%;
+      border: 5px solid transparent;
+      border-top-color: rgba(124, 58, 237, 0.3);
+      border-right-color: rgba(16, 185, 129, 0.3);
+      animation: spin 1.5s linear infinite reverse;
+    }
+    .splash-progress {
+      width: 200px;
+      height: 4px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+    .splash-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #7c3aed, #10b981, #3b82f6);
+      background-size: 200% 100%;
+      border-radius: 10px;
+      animation: progressBar 1.2s ease-out forwards, gradientShift 2s ease infinite;
+      box-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
+    }
+    .splash-status {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+      animation: fadeInUp 0.8s ease-out 0.8s both;
+      letter-spacing: 0.3px;
+      transition: opacity 0.3s ease;
+    }
+    header {
+      padding: 20px clamp(20px, 5vw, 48px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(10, 14, 26, 0.75);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .brand-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #7c3aed, #10b981);
+      padding: 8px;
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+    }
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .brand-name {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      background: linear-gradient(135deg, #fff, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .brand-tagline {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    .filter-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .search {
+      position: relative;
+      flex: 1 1 280px;
+      max-width: 480px;
+    }
+    .search input {
+      width: 100%;
+      padding: 14px 18px 14px 48px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.6);
+      color: white;
+      font-size: 15px;
+      outline: none;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+    .search input:focus {
+      border-color: rgba(124, 58, 237, 0.6);
+      background: rgba(15, 23, 42, 0.8);
+      box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1), 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+    .search input::placeholder {
+      color: var(--muted);
+    }
+    .search svg {
+      position: absolute;
+      top: 14px;
+      left: 18px;
+      width: 20px;
+      height: 20px;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    .filters {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .chip {
+      background: var(--chip);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 10px 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      backdrop-filter: blur(10px);
+    }
+    .chip:hover {
+      border-color: rgba(124, 58, 237, 0.4);
+      color: white;
+      transform: translateY(-2px);
+    }
+    .chip.active {
+      border-color: rgba(124, 58, 237, 0.8);
+      color: white;
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.25), rgba(16, 185, 129, 0.2));
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.3), 0 0 0 1px rgba(124, 58, 237, 0.2);
+      transform: translateY(-2px);
+    }
+    main {
+      padding: 32px clamp(20px, 5vw, 48px) 48px;
+      position: relative;
+      z-index: 1;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(20px) saturate(180%);
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.6s ease-out both;
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      padding: 1.5px;
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.5), rgba(16, 185, 129, 0.4), rgba(59, 130, 246, 0.3));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+    .card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: rgba(124, 58, 237, 0.5);
+      box-shadow: var(--shadow-lg), 0 0 40px rgba(124, 58, 237, 0.2);
+    }
+    .card:hover::before {
+      opacity: 1;
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .card h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.4;
+      color: white;
+      flex: 1;
+    }
+    .badge {
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .badge.open { 
+      background: rgba(16, 185, 129, 0.2); 
+      color: #34d399; 
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .badge.upcoming { 
+      background: rgba(124, 58, 237, 0.2); 
+      color: #c084fc; 
+      border: 1px solid rgba(124, 58, 237, 0.3);
+    }
+    .badge.closed { 
+      background: rgba(248, 113, 113, 0.2); 
+      color: #fca5a5; 
+      border: 1px solid rgba(248, 113, 113, 0.3);
+    }
+    .tag-row { 
+      display: flex; 
+      gap: 8px; 
+      flex-wrap: wrap; 
+    }
+    .tag {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(16, 185, 129, 0.15));
+      border: 1px solid rgba(124, 58, 237, 0.2);
+      font-size: 12px;
+      color: #e2e8f0;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+    .pill-badge .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .meta strong { 
+      display: block; 
+      color: white; 
+      margin-bottom: 4px; 
+      font-size: 14px; 
+      font-weight: 700;
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .metric {
+      padding: 12px 8px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .metric:hover {
+      background: rgba(255, 255, 255, 0.06);
+      transform: translateY(-2px);
+    }
+    .metric .label {
+      font-size: 10px;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .metric .value {
+      font-size: 15px;
+      font-weight: 800;
+      color: #e5e7eb;
+    }
+    details {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.02);
+      transition: all 0.3s ease;
+    }
+    details[open] {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(124, 58, 237, 0.3);
+    }
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      color: white;
+      list-style: none;
+      font-size: 14px;
+      padding: 4px 0;
+      transition: color 0.2s ease;
+    }
+    summary:hover {
+      color: #c084fc;
+    }
+    summary::marker { display: none; }
+    summary::-webkit-details-marker { display: none; }
+    .note {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 12px;
+    }
+    .detail-grid strong { 
+      display: block; 
+      color: white; 
+      margin-bottom: 4px; 
+      font-weight: 700;
+    }
+    .list {
+      margin: 12px 0 0;
+      padding-left: 20px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .list li {
+      margin-bottom: 6px;
+    }
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+    a.button, button {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      color: white;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex: 1;
+      min-width: 140px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #7c3aed, #10b981);
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(124, 58, 237, 0.5);
+    }
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      transform: translateY(-2px);
+    }
+    .btn-disabled {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      color: #64748b;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    .btn-link {
+      padding: 0;
+      border: none;
+      background: none;
+      color: #a5b4fc;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+    .btn-link:hover {
+      color: #818cf8;
+    }
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 60px 20px;
+      border: 2px dashed var(--border);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.02);
+      font-size: 16px;
+    }
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .header-top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .search {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="splash" class="splash">
+    <div class="splash-particles">
+      <div class="splash-particle"></div>
+      <div class="splash-particle"></div>
+      <div class="splash-particle"></div>
+      <div class="splash-particle"></div>
+      <div class="splash-particle"></div>
+      <div class="splash-particle"></div>
+      <div class="splash-particle"></div>
+      <div class="splash-particle"></div>
+      <div class="splash-particle"></div>
+    </div>
+    <div class="splash-content">
+      <div class="splash-logo">
+        <img src="https://i.postimg.cc/DSLRTB8m/file-00000000ff4471fd807ff67a7c231bf8-2.png" alt="IPO JSS Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'width:100%;height:100%;background:linear-gradient(135deg,#7c3aed,#10b981);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:900;color:white;text-shadow:0 4px 20px rgba(0,0,0,0.3);\'>IPO JSS</div>'">
+      </div>
+      <div class="splash-title">IPO JSS</div>
+      <div class="splash-tagline">Trade GMP. Trade Smart.</div>
+      <div class="splash-loader-container">
+        <div class="splash-loader"></div>
+        <div class="splash-progress">
+          <div class="splash-progress-bar"></div>
+        </div>
+        <div class="splash-status" id="splashStatus">Loading premium IPO tracker...</div>
+      </div>
+    </div>
+  </div>
+
+  <header>
+    <div class="header-top">
+      <div class="brand">
+        <div class="brand-logo">
+          <img src="https://i.postimg.cc/DSLRTB8m/file-00000000ff4471fd807ff67a7c231bf8-2.png" alt="Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'width:100%;height:100%;background:linear-gradient(135deg,#7c3aed,#10b981);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:white;\'>IPO</div>'">
+        </div>
+        <div class="brand-text">
+          <div class="brand-name">IPO JSS</div>
+          <div class="brand-tagline">Trade GMP. Trade Smart.</div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-row">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="7" />
+          <line x1="16.65" y1="16.65" x2="21" y2="21" />
+        </svg>
+        <input id="search" placeholder="Search IPOs by company or sector..." />
+      </div>
+      <div class="filters">
+        <div class="chip active" data-filter="all">All</div>
+        <div class="chip" data-filter="open">Open</div>
+        <div class="chip" data-filter="upcoming">Upcoming</div>
+        <div class="chip" data-filter="closed">Closed</div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div id="grid" class="grid"></div>
+    <div id="empty" class="empty" hidden>कोई IPO नहीं मिला। फ़िल्टर बदलकर देखें।</div>
+  </main>
+
+  <script>
+    // Firebase configuration placeholder - ready for integration
+    const FIREBASE_CONFIG = {
+      // apiKey: "YOUR_API_KEY",
+      // authDomain: "YOUR_AUTH_DOMAIN",
+      // projectId: "YOUR_PROJECT_ID",
+      // storageBucket: "YOUR_STORAGE_BUCKET",
+      // messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      // appId: "YOUR_APP_ID"
+    };
+
+    // Function to load IPOs from Firebase (ready for implementation)
+    async function loadIposFromFirebase() {
+      // TODO: Implement Firebase Firestore data loading
+      // Example structure:
+      // const db = getFirestore();
+      // const iposRef = collection(db, "ipos");
+      // const snapshot = await getDocs(iposRef);
+      // return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      return null;
+    }
+
+    // Default IPO data (fallback when Firebase is not configured)
+    const DEFAULT_IPO_LIST = [
+      {
+        name: "Rurih Industries",
+        status: "closed",
+        board: "Mainboard",
+        openDate: "02 Dec 2025",
+        closeDate: "05 Dec 2025",
+        priceBand: "₹120 - ₹128",
+        lotSize: "80 shares",
+        issueSize: "₹650 Cr",
+        allotment: "09 Dec 2025",
+        listing: "12 Dec 2025",
+        gmp: "+18%",
+        listingGains: "+15.4%",
+        subscribers: "3.8x",
+        qib: "5.1x",
+        nii: "3.0x",
+        retail: "2.2x",
+        description: "Specialty chemicals manufacturer with export focus.",
+        sector: "Chemicals",
+        exchange: "NSE | BSE",
+        business: "Aromatic intermediates & performance additives",
+        registrar: "KFintech",
+        leadManagers: "Axis Capital, ICICI Securities",
+        website: "https://rurihindustries.com",
+        highlights: [
+          "70% capacity utilisation; brownfield expansion underway",
+          "Long-term contracts with EU agrochemical majors",
+          "EBITDA margin 18.5%, ROCE 19% (FY25)"
+        ]
+      },
+      {
+        name: "Nova Mobility",
+        status: "open",
+        board: "Mainboard",
+        openDate: "14 Dec 2025",
+        closeDate: "18 Dec 2025",
+        priceBand: "₹410 - ₹432",
+        lotSize: "34 shares",
+        issueSize: "₹1,250 Cr",
+        allotment: "19 Dec 2025",
+        listing: "23 Dec 2025",
+        gmp: "+22%",
+        listingGains: null,
+        subscribers: "—",
+        qib: "—",
+        nii: "—",
+        retail: "—",
+        description: "EV drivetrain & battery pack maker with strong OEM tie-ups.",
+        sector: "EV / Auto",
+        exchange: "NSE | BSE",
+        business: "E-axles, battery packs, BMS software for 2W/4W EVs",
+        registrar: "Link Intime",
+        leadManagers: "Kotak, JM Financial",
+        website: "https://novamobility.com",
+        highlights: [
+          "Order book: ₹3,400 Cr; 60% from repeat OEMs",
+          "Backward integrated for cells & power electronics",
+          "Positive cash flow from operations last 6 quarters"
+        ]
+      },
+      {
+        name: "ByteStack Cloud",
+        status: "upcoming",
+        board: "Mainboard",
+        openDate: "27 Dec 2025",
+        closeDate: "30 Dec 2025",
+        priceBand: "₹720 - ₹760",
+        lotSize: "18 shares",
+        issueSize: "₹2,050 Cr",
+        allotment: "31 Dec 2025",
+        listing: "03 Jan 2026",
+        gmp: "+8%",
+        listingGains: null,
+        subscribers: "—",
+        qib: "—",
+        nii: "—",
+        retail: "—",
+        description: "Cloud infra + edge CDN provider, profitable for 3+ years.",
+        sector: "Tech",
+        exchange: "NSE | BSE",
+        business: "IaaS, managed Kubernetes, edge CDN in APAC",
+        registrar: "KFintech",
+        leadManagers: "Goldman Sachs, HDFC Bank",
+        website: "https://bytestackcloud.com",
+        highlights: [
+          "Net revenue retention 129%; churn under 3%",
+          "15 edge POPs live; latency SLA 30ms pan-India",
+          "PAT margin 12.4% with zero net debt"
+        ]
+      },
+      {
+        name: "AgriNova Seeds",
+        status: "closed",
+        board: "Mainboard",
+        openDate: "21 Nov 2025",
+        closeDate: "25 Nov 2025",
+        priceBand: "₹155 - ₹165",
+        lotSize: "90 shares",
+        issueSize: "₹480 Cr",
+        allotment: "27 Nov 2025",
+        listing: "02 Dec 2025",
+        gmp: "+10%",
+        listingGains: "+11.2%",
+        subscribers: "2.4x",
+        qib: "3.1x",
+        nii: "2.0x",
+        retail: "1.6x",
+        description: "Hybrid seeds & agri biotech firm with 20% export revenue.",
+        sector: "Agri",
+        exchange: "NSE | BSE",
+        business: "Hybrid seeds (cotton, maize, veg) and trait research",
+        registrar: "Link Intime",
+        leadManagers: "Edelweiss, SBI Caps",
+        website: "https://agrinova.in",
+        highlights: [
+          "R&D spends 7% of revenue; 180+ active hybrids",
+          "Distribution: 1,200 dealers, presence in 14 states",
+          "Working capital days reduced from 110 to 82 YoY"
+        ]
+      },
+      {
+        name: "Metro Realty REIT",
+        status: "open",
+        board: "Mainboard",
+        openDate: "13 Dec 2025",
+        closeDate: "17 Dec 2025",
+        priceBand: "₹95 - ₹100",
+        lotSize: "150 units",
+        issueSize: "₹1,050 Cr",
+        allotment: "18 Dec 2025",
+        listing: "22 Dec 2025",
+        gmp: "+5%",
+        listingGains: null,
+        subscribers: "—",
+        qib: "—",
+        nii: "—",
+        retail: "—",
+        description: "Yield-focused REIT with grade-A commercial portfolio.",
+        sector: "Real Estate",
+        exchange: "NSE",
+        business: "Commercial REIT; 9.2 msf office + retail, 94% occupancy",
+        registrar: "KFintech",
+        leadManagers: "ICICI Securities, HSBC",
+        website: "https://metroreitreit.com",
+        highlights: [
+          "WALE 6.1 years; top-5 tenants contribute 32% rent",
+          "No major lease expiries till FY27",
+          "Projected yield 7.8% in first full year"
+        ]
+      },
+      {
+        name: "Sunrise Diagnostics",
+        status: "open",
+        board: "Mainboard",
+        openDate: "15 Dec 2025",
+        closeDate: "19 Dec 2025",
+        priceBand: "₹320 - ₹338",
+        lotSize: "44 shares",
+        issueSize: "₹820 Cr",
+        allotment: "20 Dec 2025",
+        listing: "24 Dec 2025",
+        gmp: "+12%",
+        listingGains: null,
+        subscribers: "—",
+        qib: "—",
+        nii: "—",
+        retail: "—",
+        description: "Pan-India diagnostics chain with strong franchise network.",
+        sector: "Healthcare",
+        exchange: "NSE | BSE",
+        business: "Pathology labs, home collection, radiology services",
+        registrar: "KFintech",
+        leadManagers: "Axis Capital, SBI Caps",
+        website: "https://sunrisediagnostics.in",
+        highlights: [
+          "600+ collection centers across 14 states",
+          "EBITDA margin 24%; asset-light franchise model",
+          "AI-enabled reporting TAT under 6 hours for 80% tests"
+        ]
+      },
+      {
+        name: "TerraCement",
+        status: "closed",
+        board: "Mainboard",
+        openDate: "28 Nov 2025",
+        closeDate: "02 Dec 2025",
+        priceBand: "₹215 - ₹225",
+        lotSize: "65 shares",
+        issueSize: "₹1,100 Cr",
+        allotment: "04 Dec 2025",
+        listing: "09 Dec 2025",
+        gmp: "+7%",
+        listingGains: "+6.5%",
+        subscribers: "1.9x",
+        qib: "2.7x",
+        nii: "1.6x",
+        retail: "1.2x",
+        description: "Mid-cap cement player with strong North India presence.",
+        sector: "Cement",
+        exchange: "NSE | BSE",
+        business: "Cement & clinker with captive power and limestone mines",
+        registrar: "Link Intime",
+        leadManagers: "HDFC Bank, IIFL",
+        website: "https://terracement.com",
+        highlights: [
+          "Capacity 12 MTPA; utilisation 78%",
+          "Freight efficiency via multimodal dispatch",
+          "Green power share 32% and rising"
+        ]
+      },
+      {
+        name: "SkyKart Logistics",
+        status: "upcoming",
+        board: "Mainboard",
+        openDate: "05 Jan 2026",
+        closeDate: "08 Jan 2026",
+        priceBand: "₹150 - ₹160",
+        lotSize: "95 shares",
+        issueSize: "₹900 Cr",
+        allotment: "09 Jan 2026",
+        listing: "13 Jan 2026",
+        gmp: "+6%",
+        listingGains: null,
+        subscribers: "—",
+        qib: "—",
+        nii: "—",
+        retail: "—",
+        description: "Express logistics + warehousing player for D2C brands.",
+        sector: "Logistics",
+        exchange: "NSE | BSE",
+        business: "Air & surface express, 3PL, fulfilment for e-commerce",
+        registrar: "KFintech",
+        leadManagers: "Kotak, Citi",
+        website: "https://skykartlogistics.com",
+        highlights: [
+          "Same/next-day reach to 28 key cities",
+          "Contracted warehousing 4.5 mn sq ft",
+          "On-time delivery SLA 97%"
+        ]
+      },
+      {
+        name: "NeoFin Services",
+        status: "open",
+        board: "Mainboard",
+        openDate: "12 Dec 2025",
+        closeDate: "16 Dec 2025",
+        priceBand: "₹280 - ₹295",
+        lotSize: "50 shares",
+        issueSize: "₹1,400 Cr",
+        allotment: "17 Dec 2025",
+        listing: "21 Dec 2025",
+        gmp: "+9%",
+        listingGains: null,
+        subscribers: "—",
+        qib: "—",
+        nii: "—",
+        retail: "—",
+        description: "Retail-focused NBFC with digital lending rails.",
+        sector: "Financials",
+        exchange: "NSE | BSE",
+        business: "Consumer durables finance, small-ticket personal loans",
+        registrar: "Link Intime",
+        leadManagers: "JM Financial, Axis Capital",
+        website: "https://neofinservices.com",
+        highlights: [
+          "GNPA 1.8%; PCR 62%",
+          "80% disbursals via mobile journeys",
+          "AUM CAGR 34% (FY22-25)"
+        ]
+      },
+      {
+        name: "Arctic Beverages",
+        status: "upcoming",
+        board: "SME",
+        openDate: "22 Dec 2025",
+        closeDate: "26 Dec 2025",
+        priceBand: "₹140 - ₹150",
+        lotSize: "100 shares",
+        issueSize: "₹520 Cr",
+        allotment: "29 Dec 2025",
+        listing: "02 Jan 2026",
+        gmp: "+4%",
+        listingGains: null,
+        subscribers: "—",
+        qib: "—",
+        nii: "—",
+        retail: "—",
+        description: "Bottled water & functional drinks brand expanding nationally.",
+        sector: "FMCG",
+        exchange: "NSE | BSE",
+        business: "Packaged water, electrolyte drinks; 7 owned plants",
+        registrar: "KFintech",
+        leadManagers: "ICICI Securities, Motilal Oswal",
+        website: "https://arcticbev.com",
+        highlights: [
+          "Distribution reach 250k retail outlets",
+          "In-house blow molding reduces packaging cost",
+          "EBITDA margin 16%; brand spend at 8% of revenue"
+        ]
+      },
+      {
+        name: "Helio Renewables",
+        status: "closed",
+        board: "Mainboard",
+        openDate: "30 Nov 2025",
+        closeDate: "04 Dec 2025",
+        priceBand: "₹460 - ₹475",
+        lotSize: "30 shares",
+        issueSize: "₹1,800 Cr",
+        allotment: "05 Dec 2025",
+        listing: "10 Dec 2025",
+        gmp: "+14%",
+        listingGains: "+12.1%",
+        subscribers: "4.4x",
+        qib: "6.0x",
+        nii: "3.8x",
+        retail: "2.5x",
+        description: "Utility-scale solar IPP with storage pilots in progress.",
+        sector: "Renewables",
+        exchange: "NSE | BSE",
+        business: "Solar generation, BESS pilots, corporate PPAs",
+        registrar: "Link Intime",
+        leadManagers: "Axis Capital, HSBC",
+        website: "https://heliorenewables.com",
+        highlights: [
+          "Installed capacity 2.4 GW; pipeline 1.1 GW",
+          "CUF 23.4%; tariff visibility via 18-year PPAs",
+          "Net debt/EBITDA 2.1x trending down"
+        ]
+      },
+      {
+        name: "AeroTech Avionics",
+        status: "upcoming",
+        board: "Mainboard",
+        openDate: "10 Jan 2026",
+        closeDate: "14 Jan 2026",
+        priceBand: "₹520 - ₹545",
+        lotSize: "27 shares",
+        issueSize: "₹1,600 Cr",
+        allotment: "15 Jan 2026",
+        listing: "20 Jan 2026",
+        gmp: "+11%",
+        listingGains: null,
+        subscribers: "—",
+        qib: "—",
+        nii: "—",
+        retail: "—",
+        description: "Avionics & flight control systems supplier to OEMs.",
+        sector: "Aerospace",
+        exchange: "NSE | BSE",
+        business: "Flight computers, sensors, MRO for avionics",
+        registrar: "KFintech",
+        leadManagers: "Goldman Sachs, Kotak",
+        website: "https://aerotechavionics.com",
+        highlights: [
+          "Order book 2.2x FY25 revenue",
+          "Exports 44% of revenue; DO-178C certified",
+          "High entry barrier via certifications & IP"
+        ]
+      },
+      {
+        name: "UrbanFab Interiors",
+        status: "closed",
+        board: "SME",
+        openDate: "18 Nov 2025",
+        closeDate: "21 Nov 2025",
+        priceBand: "₹180 - ₹188",
+        lotSize: "80 shares",
+        issueSize: "₹360 Cr",
+        allotment: "25 Nov 2025",
+        listing: "29 Nov 2025",
+        gmp: "+3%",
+        listingGains: "+2.8%",
+        subscribers: "1.5x",
+        qib: "1.9x",
+        nii: "1.2x",
+        retail: "1.1x",
+        description: "Modular interiors & furniture brand for urban homes.",
+        sector: "Consumer Durables",
+        exchange: "NSE | BSE",
+        business: "Modular kitchens, wardrobes, storage with D2C plus studios",
+        registrar: "Link Intime",
+        leadManagers: "Edelweiss, JM Financial",
+        website: "https://urbanfab.in",
+        highlights: [
+          "120 experience studios across metros",
+          "In-house manufacturing for core SKUs",
+          "NPS 62; repeat customers 28%"
+        ]
+      },
+      {
+        name: "Medivance Pharma",
+        status: "open",
+        board: "Mainboard",
+        openDate: "11 Dec 2025",
+        closeDate: "15 Dec 2025",
+        priceBand: "₹510 - ₹535",
+        lotSize: "28 shares",
+        issueSize: "₹1,950 Cr",
+        allotment: "16 Dec 2025",
+        listing: "20 Dec 2025",
+        gmp: "+16%",
+        listingGains: null,
+        subscribers: "—",
+        qib: "—",
+        nii: "—",
+        retail: "—",
+        description: "Specialty pharma with complex injectables portfolio.",
+        sector: "Pharma",
+        exchange: "NSE | BSE",
+        business: "Injectables, NDDS, CDMO for regulated markets",
+        registrar: "KFintech",
+        leadManagers: "Morgan Stanley, Axis Capital",
+        website: "https://medivancepharma.com",
+        highlights: [
+          "USFDA approved 5 plants; zero 483s last audit",
+          "40 ANDAs filed; 18 commercialized",
+          "R&D spend 9% of revenue; EBITDA margin 28%"
+        ]
+      },
+      {
+        name: "GreenFields Organics",
+        status: "upcoming",
+        board: "SME",
+        openDate: "07 Jan 2026",
+        closeDate: "11 Jan 2026",
+        priceBand: "₹165 - ₹175",
+        lotSize: "85 shares",
+        issueSize: "₹750 Cr",
+        allotment: "12 Jan 2026",
+        listing: "17 Jan 2026",
+        gmp: "+5%",
+        listingGains: null,
+        subscribers: "—",
+        qib: "—",
+        nii: "—",
+        retail: "—",
+        description: "Organic food brand with farm-to-table supply chain.",
+        sector: "FMCG",
+        exchange: "NSE | BSE",
+        business: "Organic staples, fresh produce, omni-channel distribution",
+        registrar: "Link Intime",
+        leadManagers: "Axis Capital, HDFC Bank",
+        website: "https://greenfieldsorganics.in",
+        highlights: [
+          "Owns/leases 6,500 acres certified organic farms",
+          "Cold chain-enabled logistics to 30 cities",
+          "Gross margin 34%; D2C contributes 40% revenue"
+        ]
+      }
+    ];
+
+    // Initialize IPO list (Firebase or default)
+    let IPO_LIST = DEFAULT_IPO_LIST;
+
+    // Load IPOs from Firebase if configured (async initialization)
+    async function initializeIpos() {
+      try {
+        const firebaseIpos = await loadIposFromFirebase();
+        if (firebaseIpos && firebaseIpos.length > 0) {
+          IPO_LIST = firebaseIpos;
+        }
+      } catch (error) {
+        console.warn("Firebase not configured, using default data:", error);
+      }
+      render(IPO_LIST);
+    }
+
+    const grid = document.getElementById("grid");
+    const empty = document.getElementById("empty");
+    const searchInput = document.getElementById("search");
+    const chips = [...document.querySelectorAll(".chip")];
+    let activeFilter = "all";
+
+    const statusLabel = {
+      open: { text: "Open", cls: "open" },
+      upcoming: { text: "Upcoming", cls: "upcoming" },
+      closed: { text: "Closed", cls: "closed" },
+    };
+
+    function render(list) {
+      grid.innerHTML = "";
+      if (!list.length) {
+        empty.hidden = false;
+        return;
+      }
+      empty.hidden = true;
+
+      list.forEach((ipo, index) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.style.animationDelay = `${index * 0.05}s`;
+        card.innerHTML = `
+          <div class="card-header">
+            <h3>${ipo.name}</h3>
+            <span class="badge ${statusLabel[ipo.status].cls}">${statusLabel[ipo.status].text}</span>
+          </div>
+          <div class="tag-row">
+            <div class="tag">Open: ${ipo.openDate}</div>
+            <div class="tag">Close: ${ipo.closeDate}</div>
+            <div class="tag">Exchange: ${ipo.exchange}</div>
+            <div class="tag">Sector: ${ipo.sector}</div>
+            <div class="pill-badge"><span class="dot"></span>${ipo.board || "Mainboard"}</div>
+          </div>
+          <div class="meta">
+            <div><strong>Price Band</strong>${ipo.priceBand}</div>
+            <div><strong>Lot Size</strong>${ipo.lotSize}</div>
+            <div><strong>Issue Size</strong>${ipo.issueSize}</div>
+            <div><strong>GMP</strong>${ipo.gmp ?? "—"}</div>
+            <div><strong>Allotment</strong>${ipo.allotment}</div>
+            <div><strong>Listing</strong>${ipo.listing}</div>
+            <div><strong>Listing Gains</strong>${ipo.listingGains ?? "—"}</div>
+          </div>
+          <div class="metrics">
+            <div class="metric"><div class="label">Subscribers</div><div class="value">${ipo.subscribers ?? "—"}</div></div>
+            <div class="metric"><div class="label">QIB</div><div class="value">${ipo.qib ?? "—"}</div></div>
+            <div class="metric"><div class="label">NII</div><div class="value">${ipo.nii ?? "—"}</div></div>
+            <div class="metric"><div class="label">Retail</div><div class="value">${ipo.retail ?? "—"}</div></div>
+          </div>
+          <details>
+            <summary>Details & Allotment</summary>
+            <p class="note">${ipo.description}</p>
+            <div class="detail-grid">
+              <div><strong>Business</strong>${ipo.business}</div>
+              <div><strong>Issue Size</strong>${ipo.issueSize}</div>
+              <div><strong>Registrar</strong>${ipo.registrar}</div>
+              <div><strong>Lead Managers</strong>${ipo.leadManagers}</div>
+              <div><strong>Website</strong><br><a class="btn-link" href="${ipo.website || '#'}" target="_blank" rel="noopener">Visit</a></div>
+            </div>
+            <ul class="list">
+              ${ipo.highlights.map((item) => `<li>${item}</li>`).join("")}
+            </ul>
+            <div class="actions">
+              ${
+                ipo.status === "closed"
+                  ? `<a class="button btn-primary" href="https://ipostatus.kfintech.com" target="_blank" rel="noopener">Allotment Check</a>`
+                  : `<button class="btn-disabled" disabled>Waiting for allotment</button>`
+              }
+              <a class="button btn-ghost" href="${ipo.website || '#'}" target="_blank" rel="noopener">Company Details</a>
+            </div>
+          </details>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function applyFilter() {
+      const q = searchInput.value.trim().toLowerCase();
+      const filtered = IPO_LIST.filter((ipo) => {
+        const byStatus = activeFilter === "all" || ipo.status === activeFilter;
+        const byText = !q || ipo.name.toLowerCase().includes(q) || ipo.sector.toLowerCase().includes(q);
+        return byStatus && byText;
+      });
+      render(filtered);
+    }
+
+    chips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        chips.forEach((c) => c.classList.remove("active"));
+        chip.classList.add("active");
+        activeFilter = chip.dataset.filter;
+        applyFilter();
+      });
+    });
+
+    searchInput.addEventListener("input", applyFilter);
+
+    // Splash screen status updates
+    const splashStatus = document.getElementById("splashStatus");
+    const statusMessages = [
+      "Initializing premium IPO tracker...",
+      "Loading market data...",
+      "Preparing dashboard...",
+      "Almost ready..."
+    ];
+    
+    function updateSplashStatus(index) {
+      if (splashStatus && index < statusMessages.length) {
+        splashStatus.textContent = statusMessages[index];
+        splashStatus.style.opacity = "0";
+        setTimeout(() => {
+          splashStatus.textContent = statusMessages[index];
+          splashStatus.style.opacity = "1";
+        }, 200);
+      }
+    }
+
+    // Initialize app with enhanced splash screen
+    window.addEventListener("load", () => {
+      let statusIndex = 0;
+      const statusInterval = setInterval(() => {
+        updateSplashStatus(statusIndex);
+        statusIndex++;
+        if (statusIndex >= statusMessages.length) {
+          clearInterval(statusInterval);
+        }
+      }, 400);
+
+      // Initialize IPOs
+      setTimeout(() => {
+        initializeIpos();
+      }, 800);
+
+      // Hide splash after all animations
+      setTimeout(() => {
+        const splash = document.getElementById("splash");
+        if (splash) {
+          splash.classList.add("hidden");
+          setTimeout(() => {
+            splash.style.display = "none";
+          }, 1000);
+        }
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
