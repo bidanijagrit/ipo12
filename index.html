@@ -115,6 +115,16 @@
             font-size: 15px;
             font-weight: 500;
             animation: textFadeIn 0.8s ease-out 0.5s backwards;
+            margin-bottom: 12px;
+        }
+
+        .splash-tagline {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: textFadeIn 0.8s ease-out 0.7s backwards;
         }
 
         /* Header */
@@ -572,7 +582,7 @@
         }
 
         .modal-body {
-            padding: 20px;
+            padding: 16px 8px;
         }
 
         .detail-section {
@@ -679,6 +689,7 @@
         </div>
         <div class="splash-text">IPO JSS</div>
         <div class="splash-subtitle">Live IPO Updates & Analysis</div>
+        <div class="splash-tagline">Trade Smart . Trade GMP</div>
     </div>
 
     <header>
@@ -1139,6 +1150,71 @@
                     </table>
                 </div>
                 ` : ''}
+                
+                <div class="detail-section">
+                    <div class="section-title">Lot(s) Distribution</div>
+                    <table class="detail-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Individual</th>
+                                <th>HNI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Min Share</td>
+                                <td>2400</td>
+                                <td>3600</td>
+                            </tr>
+                            <tr>
+                                <td>Min Amount</td>
+                                <td>235200</td>
+                                <td>352800</td>
+                            </tr>
+                            <tr>
+                                <td>Total Lots</td>
+                                <td>772</td>
+                                <td>514</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="detail-section">
+                    <div class="section-title">IPO Reservation</div>
+                    <table class="detail-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Shares Offered</th>
+                                <th>%</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>HNI</td>
+                                <td>18,51,600</td>
+                                <td>47.48%</td>
+                            </tr>
+                            <tr>
+                                <td>INDIVIDUAL</td>
+                                <td>18,51,600</td>
+                                <td>47.48%</td>
+                            </tr>
+                            <tr>
+                                <td>Market Maker</td>
+                                <td>1,96,800</td>
+                                <td>5.05%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total</strong></td>
+                                <td><strong>39,00,000</strong></td>
+                                <td><strong>100.00%</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 
                 ${ipo.highlights && ipo.highlights.length > 0 ? `
                 <div class="detail-section">
