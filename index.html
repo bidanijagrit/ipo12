@@ -367,7 +367,7 @@
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 16px;
+            padding: 18px;
             margin-bottom: 12px;
             transition: all 0.2s;
         }
@@ -421,14 +421,15 @@
         .card-info {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px 16px;
-            margin-bottom: 12px;
+            gap: 12px 16px;
+            margin-bottom: 14px;
         }
 
         .info-item {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            gap: 8px;
         }
 
         .info-label {
@@ -446,7 +447,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
+            padding: 12px 0;
             border-top: 1px solid var(--border-color);
         }
 
@@ -980,8 +981,8 @@
                     </div>
                     
                     ${ipo.status !== 'upcoming' ? `
-                    <div style="padding-top:8px; border-top:1px solid var(--border-color); margin-top:8px;">
-                        <div class="info-item">
+                    <div style="padding-top:12px; border-top:1px solid var(--border-color); margin-top:12px;">
+                        <div class="info-item" style="margin-bottom:10px;">
                             <span class="info-label">Allotment Date</span>
                             <span class="info-value">${ipo.allotment}</span>
                         </div>
