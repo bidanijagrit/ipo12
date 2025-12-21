@@ -329,15 +329,15 @@
         }
 
         .board-filter input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             cursor: pointer;
             accent-color: var(--accent-blue);
         }
 
         .board-filter label {
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 16px;
+            font-weight: 700;
             cursor: pointer;
         }
 
@@ -497,16 +497,18 @@
 
         .board-badge {
             margin-top: 12px;
-            padding: 8px;
+            padding: 12px;
             background: var(--accent-orange);
             color: white;
             text-align: center;
-            border-radius: 6px;
+            border-radius: 8px;
             font-weight: 700;
-            font-size: 12px;
+            font-size: 14px;
             text-transform: uppercase;
             pointer-events: none;
             user-select: none;
+            width: 100%;
+            display: block;
         }
 
         .board-badge.mainboard {
@@ -759,8 +761,26 @@
         </div>
     </div>
 
-    <script>
-        // Static IPO Data
+    <!-- Firebase v9 CDN -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCLlAwpMV-sAEFYxBPPFyS_K_AxN1S-hYs",
+            authDomain: "ipo-jss-94f8a.firebaseapp.com",
+            databaseURL: "https://ipo-jss-94f8a-default-rtdb.firebaseio.com",
+            projectId: "ipo-jss-94f8a",
+            storageBucket: "ipo-jss-94f8a.firebasestorage.app",
+            messagingSenderId: "640345356664",
+            appId: "1:640345356664:web:737575296bd778424e308d",
+            measurementId: "G-6YFSTHR8H5"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Static IPO Data (Fallback)
         const DEFAULT_IPO_LIST = [
             {
                 name: "Rurih Industries",
@@ -1101,20 +1121,30 @@
                     <div class="section-title">IPO Details</div>
                     <div class="detail-row">
                         <span class="detail-label">Total Issue Size</span>
-                        <span class="detail-value">${ipo.issueSize}</span>
+                        <span class="detail-value">${ipo.issueSize || "—"}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Price Band</span>
-                        <span class="detail-value">${ipo.priceBand}</span>
+                        <span class="detail-value">${ipo.priceBand || "—"}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Lot Size</span>
-                        <span class="detail-value">${ipo.lotSize}</span>
+                        <span class="detail-value">${ipo.lotSize || "—"}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Min Investment</span>
+                        <span class="detail-value">${ipo.minInvestment || "—"}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Listing At</span>
-                        <span class="detail-value">${ipo.exchange}</span>
+                        <span class="detail-value">${ipo.exchange || "—"}</span>
                     </div>
+                    ${ipo.listingGains ? `
+                    <div class="detail-row">
+                        <span class="detail-label">Listing Gains</span>
+                        <span style="color:var(--accent-green); font-weight:700;">${ipo.listingGains}</span>
+                    </div>
+                    ` : ""}
                 </div>
                 
                 ${ipo.status !== 'upcoming' ? `
@@ -1162,18 +1192,18 @@
                         <tbody>
                             <tr>
                                 <td>Min Share</td>
-                                <td>2400</td>
-                                <td>3600</td>
+                                <td>${ipo.lotIndMinShare || "—"}</td>
+                                <td>${ipo.lotHniMinShare || "—"}</td>
                             </tr>
                             <tr>
                                 <td>Min Amount</td>
-                                <td>235200</td>
-                                <td>352800</td>
+                                <td>${ipo.lotIndMinAmt || "—"}</td>
+                                <td>${ipo.lotHniMinAmt || "—"}</td>
                             </tr>
                             <tr>
                                 <td>Total Lots</td>
-                                <td>772</td>
-                                <td>514</td>
+                                <td>${ipo.lotIndTotalLots || "—"}</td>
+                                <td>${ipo.lotHniTotalLots || "—"}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1192,23 +1222,23 @@
                         <tbody>
                             <tr>
                                 <td>HNI</td>
-                                <td>18,51,600</td>
-                                <td>47.48%</td>
+                                <td>${ipo.resHniShares || "—"}</td>
+                                <td>${ipo.resHniPct || "—"}</td>
                             </tr>
                             <tr>
                                 <td>INDIVIDUAL</td>
-                                <td>18,51,600</td>
-                                <td>47.48%</td>
+                                <td>${ipo.resIndShares || "—"}</td>
+                                <td>${ipo.resIndPct || "—"}</td>
                             </tr>
                             <tr>
                                 <td>Market Maker</td>
-                                <td>1,96,800</td>
-                                <td>5.05%</td>
+                                <td>${ipo.resMmShares || "—"}</td>
+                                <td>${ipo.resMmPct || "—"}</td>
                             </tr>
                             <tr>
                                 <td><strong>Total</strong></td>
-                                <td><strong>39,00,000</strong></td>
-                                <td><strong>100.00%</strong></td>
+                                <td><strong>${ipo.resTotalShares || "—"}</strong></td>
+                                <td><strong>${ipo.resTotalPct || "100.00%"}</strong></td>
                             </tr>
                         </tbody>
                     </table>
@@ -1255,8 +1285,47 @@
             document.body.style.overflow = '';
         }
 
-        // Initialize
-        applyFilter();
+        // Initialize Firebase Data Fetching
+        async function fetchIPOsFromFirebase() {
+            try {
+                const snap = await get(ref(db, "ipos"));
+                const data = snap.val();
+                if (data) {
+                    // Map Firebase object to array format
+                    const firebaseList = Object.entries(data).map(([key, val]) => {
+                        return {
+                            ...val,
+                            id: key,
+                            openDate: val.open || "",
+                            closeDate: val.close || "",
+                            allotment: val.allotment || "",
+                            listing: val.listing || "",
+                            lotSize: val.lot || "",
+                            subscribers: val.subs || ""
+                        };
+                    });
+                    if (firebaseList.length > 0) {
+                        IPO_LIST = firebaseList;
+                        console.log("Loaded from Firebase:", IPO_LIST.length);
+                    }
+                }
+            } catch (error) {
+                console.error("Firebase error:", error);
+            } finally {
+                applyFilter();
+            }
+        }
+
+        // Exposet functions to window for onclick handlers
+        window.setFilter = setFilter;
+        window.applyFilter = applyFilter;
+        window.openSearch = openSearch;
+        window.closeSearch = closeSearch;
+        window.showNotifications = showNotifications;
+        window.closeModal = closeModal;
+
+        // Start
+        fetchIPOsFromFirebase();
     </script>
 </body>
 
