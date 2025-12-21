@@ -368,6 +368,9 @@
             transition: all 0.2s;
             overflow: hidden;
             position: relative;
+            user-select: none;
+            /* Disable text selection */
+            -webkit-user-select: none;
         }
 
         .ipo-card:hover {
@@ -530,7 +533,43 @@
             background: #f97316;
         }
 
-        /* Empty State */
+        /* Notification Center */
+        .notification-item {
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .notification-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(14, 165, 233, 0.2);
+            color: var(--accent-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 14px;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .notification-time {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
         .empty {
             text-align: center;
             padding: 60px 20px;
@@ -765,7 +804,18 @@
         <div class="search-results" id="search-results"></div>
     </div>
 
-    <!-- Detail Modal -->
+    <!-- Notifications Modal -->
+    <div class="modal" id="notif-modal">
+        <div class="modal-content" style="max-height: 80vh;">
+            <div class="modal-header">
+                <div class="modal-title">Recent Updates</div>
+                <button class="btn-close" onclick="closeNotif()">&times;</button>
+            </div>
+            <div class="modal-body" id="notif-list" style="padding:0;">
+                <div class="muted" style="padding:20px; text-align:center;">No recent updates</div>
+            </div>
+        </div>
+    </div>
     <div class="modal" id="detail-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -877,6 +927,14 @@
             ];
             return colors[index % colors.length];
         }
+
+        function getGmpColor(gmp) {
+            if (!gmp || gmp === '—' || gmp === '0' || gmp === '0%') return '#ffffff';
+            if (gmp.includes('+')) return '#22c55e'; // Green
+            if (gmp.includes('-')) return '#ef4444'; // Red
+            return '#ffffff';
+        }
+
 
         function shareIPO(ipo, event) {
             event.stopPropagation();
@@ -1015,7 +1073,7 @@
                     <div class="gmp-row">
                         <div class="info-item-row">
                             <span class="info-label-side">GMP Rumors*:</span>
-                            <span class="gmp-value" style="font-size:16px;">${ipo.gmp}</span>
+                            <span class="gmp-value" style="font-size:16px; color: ${getGmpColor(ipo.gmp)}">${ipo.gmp}</span>
                         </div>
                     </div>
                     
@@ -1143,8 +1201,42 @@
         }
 
         function showNotifications() {
-            alert('Notifications:\n\n• GMP updates will appear here\n• New IPO announcements\n• Allotment results\n\n(Feature coming soon!)');
+            document.getElementById('notif-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            fetchNotifications();
         }
+
+        function closeNotif() {
+            document.getElementById('notif-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        async function fetchNotifications() {
+            const list = document.getElementById('notif-list');
+            try {
+                // Fetch last 15 updates from a dedicated notifications node
+                const snap = await get(ref(db, "notifications"));
+                const data = snap.val();
+                if (!data) {
+                    list.innerHTML = '<div class="muted" style="padding:20px; text-align:center;">No recent updates</div>';
+                    return;
+                }
+
+                const notifs = Object.values(data).reverse(); // Newest first
+                list.innerHTML = notifs.map(n => `
+                    <div class="notification-item">
+                        <div class="notification-icon">🔔</div>
+                        <div class="notification-content">
+                            <div class="notification-title">${n.message}</div>
+                            <div class="notification-time">${new Date(n.timestamp).toLocaleString()}</div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                list.innerHTML = '<div class="muted" style="padding:20px; text-align:center;">Error loading updates</div>';
+            }
+        }
+
 
         function openModal(ipo) {
             const modal = document.getElementById('detail-modal');
@@ -1374,6 +1466,7 @@
         window.openSearch = openSearch;
         window.closeSearch = closeSearch;
         window.showNotifications = showNotifications;
+        window.closeNotif = closeNotif;
         window.closeModal = closeModal;
         window.openModal = openModal;
         window.shareIPO = shareIPO;
