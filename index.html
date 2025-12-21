@@ -1,68 +1,104 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPO JSS | Trade GMP. Trade Smart.</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+    <title>IPO JSS - Live IPO Updates</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #0a0e1a;
-            --card: rgba(15, 23, 42, 0.85);
-            --muted: #94a3b8;
-            --accent: #7c3aed;
-            --accent-2: #10b981;
-            --accent-3: #3b82f6;
-            --border: rgba(255, 255, 255, 0.08);
-            --chip: rgba(30, 41, 59, 0.6);
-            --shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.6);
-        }
-
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        :root {
+            --bg-primary: #0f1419;
+            --bg-secondary: #1a1f29;
+            --bg-card: #1e2530;
+            --border-color: #2a3140;
+            --text-primary: #e8eaed;
+            --text-secondary: #9aa0a6;
+            --text-muted: #6c757d;
+            --accent-green: #10b981;
+            --accent-orange: #f97316;
+            --accent-red: #ef4444;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
         }
 
         body {
-            margin: 0;
-            font-family: "Inter", system-ui, -apple-system, sans-serif;
-            background:
-                radial-gradient(circle at 5% 10%, rgba(124, 58, 237, 0.2), transparent 30%),
-                radial-gradient(circle at 95% 5%, rgba(16, 185, 129, 0.18), transparent 28%),
-                radial-gradient(circle at 50% 90%, rgba(59, 130, 246, 0.15), transparent 35%),
-                linear-gradient(180deg, #0a0e1a 0%, #0f172a 50%, #0a0e1a 100%);
-            background-attachment: fixed;
-            color: white;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
+            padding-bottom: 80px;
         }
 
-        body::before {
-            content: "";
+        /* Splash Screen */
+        .splash-screen {
             position: fixed;
             inset: 0;
-            background-image:
-                radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.03) 1px, transparent 0);
-            background-size: 40px 40px;
-            pointer-events: none;
-            z-index: 0;
+            background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeOut 0.6s ease-in-out 2.5s forwards;
         }
 
-        /* --- Animations --- */
-        @keyframes spin {
+        @keyframes fadeOut {
             to {
-                transform: rotate(360deg);
+                opacity: 0;
+                visibility: hidden;
             }
         }
 
-        @keyframes fadeInUp {
+        .splash-logo {
+            width: 140px;
+            height: 140px;
+            background: white;
+            border-radius: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            animation: logoFadeIn 0.8s ease-out;
+            padding: 10px;
+        }
+
+        @keyframes logoFadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .splash-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .splash-text {
+            color: white;
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            animation: textFadeIn 0.8s ease-out 0.3s backwards;
+        }
+
+        @keyframes textFadeIn {
             from {
                 opacity: 0;
                 transform: translateY(20px);
@@ -74,929 +110,650 @@
             }
         }
 
-        @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+        .splash-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 15px;
+            font-weight: 500;
+            animation: textFadeIn 0.8s ease-out 0.5s backwards;
         }
 
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-20px);
-            }
+        /* Header */
+        header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        @keyframes glow {
-
-            0%,
-            100% {
-                box-shadow: 0 0 20px rgba(124, 58, 237, 0.4), 0 0 40px rgba(16, 185, 129, 0.3);
-            }
-
-            50% {
-                box-shadow: 0 0 40px rgba(124, 58, 237, 0.6), 0 0 80px rgba(16, 185, 129, 0.5);
-            }
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        @keyframes gradientShift {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-
-            100% {
-                background-position: 0% 50%;
-            }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        @keyframes particleFloat {
-            0% {
-                transform: translateY(0) translateX(0) rotate(0deg);
-                opacity: 0;
-            }
-
-            10% {
-                opacity: 1;
-            }
-
-            90% {
-                opacity: 1;
-            }
-
-            100% {
-                transform: translateY(-100vh) translateX(50px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        @keyframes progressBar {
-            from {
-                width: 0%;
-            }
-
-            to {
-                width: 100%;
-            }
-        }
-
-        @keyframes rotateBlur {
-            0% {
-                transform: rotate(0deg) scale(1);
-            }
-
-            50% {
-                transform: rotate(180deg) scale(1.1);
-            }
-
-            100% {
-                transform: rotate(360deg) scale(1);
-            }
-        }
-
-        @keyframes slideUpFade {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes shimmerLoad {
-            0% {
-                transform: translateX(-100%);
-            }
-
-            100% {
-                transform: translateX(300%);
-            }
-        }
-
-        @keyframes pulseGlow {
-            0% {
-                opacity: 0.3;
-                transform: scale(0.95);
-            }
-
-            100% {
-                opacity: 0.6;
-                transform: scale(1.05);
-            }
-        }
-
-
-        /* --- Enhanced Splash Screen --- */
-        .splash {
-            position: fixed;
-            inset: 0;
-            background: #0a0e1a;
-            display: grid;
-            place-items: center;
-            z-index: 9999;
-            transition: opacity 0.8s ease, visibility 0.8s;
-        }
-
-        .splash::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.15), transparent 50%);
-            animation: pulseGlow 4s ease-in-out infinite alternate;
-        }
-
-        .splash.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .splash-content {
-            text-align: center;
-            position: relative;
-            z-index: 10;
-            padding: 20px;
-        }
-
-        .splash-logo-wrap {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 30px;
-        }
-
-        .splash-logo-wrap::before,
-        .splash-logo-wrap::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: 30px;
-            background: linear-gradient(135deg, #7c3aed, #10b981);
-            opacity: 0.3;
-            filter: blur(20px);
-            animation: rotateBlur 8s linear infinite;
-        }
-
-        .splash-logo-wrap::after {
-            animation-direction: reverse;
-            opacity: 0.2;
-            filter: blur(10px);
-        }
-
-        .splash-logo-inner {
-            position: absolute;
-            inset: 4px;
-            background: #0f172a;
-            border-radius: 26px;
+        .header-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 2;
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
-        }
-
-        .splash-title {
-            font-size: 48px;
-            font-weight: 900;
-            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
-            letter-spacing: -1.5px;
-            transform: translateY(20px);
-            opacity: 0;
-            animation: slideUpFade 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.2s;
-        }
-
-        .splash-subtitle {
-            color: #94a3b8;
-            font-size: 16px;
-            font-weight: 500;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 40px;
-            transform: translateY(20px);
-            opacity: 0;
-            animation: slideUpFade 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.4s;
-        }
-
-        .loader-line {
-            width: 200px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 4px;
-            margin: 0 auto;
             overflow: hidden;
-            position: relative;
-            opacity: 0;
-            animation: slideUpFade 1s ease forwards 0.6s;
         }
 
-        .loader-fill {
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 40%;
-            background: linear-gradient(90deg, transparent, #7c3aed, #10b981, transparent);
-            animation: shimmerLoad 1.5s infinite linear;
-        }
-
-        /* --- Header & Layout (Sticky Fix) --- */
-        header {
-            /* Removed global sticky */
-            position: relative;
-            z-index: 100;
-            padding: 0;
-            background: transparent;
-            border: none;
-            box-shadow: none;
-        }
-
-        .header-top {
-            /* This part is now STICKY */
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            padding: 16px clamp(20px, 5vw, 48px);
-            position: sticky;
-            top: 0;
-            z-index: 102;
-            /* Higher than filters */
-            background: rgba(10, 14, 26, 0.9);
-            backdrop-filter: blur(20px) saturate(180%);
-            border-bottom: 1px solid var(--border);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .brand-logo {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #7c3aed, #10b981);
-            padding: 8px;
-            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
-        }
-
-        .brand-logo img {
+        .header-logo img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            border-radius: 6px;
         }
 
-        .brand-text {
+        .header-title h1 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .header-subtitle {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .header-actions {
             display: flex;
-            flex-direction: column;
-            gap: 2px;
+            gap: 12px;
+            align-items: center;
         }
 
-        .brand-name {
-            font-size: 20px;
-            font-weight: 800;
-            letter-spacing: -0.3px;
-            background: linear-gradient(135deg, #fff, #cbd5e1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .brand-tagline {
-            font-size: 12px;
-            color: var(--muted);
-            font-weight: 600;
-            letter-spacing: 0.3px;
-        }
-
-        /* Filters (Scrollable) */
-        .filter-wrapper {
-            /* Moves with the page */
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            padding: 20px clamp(20px, 5vw, 48px);
-            background: transparent;
-        }
-
-        .filter-row {
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
             display: flex;
             align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .search {
-            position: relative;
-            flex: 1 1 280px;
-            max-width: 480px;
-        }
-
-        .search input {
-            width: 100%;
-            padding: 14px 18px 14px 48px;
-            border-radius: 14px;
-            border: 1px solid var(--border);
-            background: rgba(15, 23, 42, 0.6);
-            color: white;
-            font-size: 15px;
-            outline: none;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .search input:focus {
-            border-color: rgba(124, 58, 237, 0.6);
-            background: rgba(15, 23, 42, 0.8);
-            box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1), 0 8px 24px rgba(0, 0, 0, 0.3);
-        }
-
-        .search input::placeholder {
-            color: var(--muted);
-        }
-
-        .search svg {
-            position: absolute;
-            top: 14px;
-            left: 18px;
-            width: 20px;
-            height: 20px;
-            opacity: 0.6;
-            pointer-events: none;
-        }
-
-        .filters {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .chip {
-            background: var(--chip);
-            border: 1px solid var(--border);
-            color: var(--muted);
-            padding: 10px 18px;
-            border-radius: 12px;
+            justify-content: center;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-size: 14px;
+            transition: all 0.2s;
+            font-size: 18px;
+        }
+
+        .icon-btn:hover {
+            background: var(--border-color);
+        }
+
+        .notification-badge {
+            position: relative;
+        }
+
+        .notification-badge::after {
+            content: '';
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-red);
+            border-radius: 50%;
+        }
+
+        /* Search Modal */
+        .search-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1001;
+            padding: 20px;
+        }
+
+        .search-modal.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .search-header {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 16px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .search-results {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 65px;
+            z-index: 99;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 14px 16px;
+            text-align: center;
             font-weight: 600;
-            white-space: nowrap;
-            backdrop-filter: blur(10px);
+            font-size: 14px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
         }
 
-        .chip:hover {
-            border-color: rgba(124, 58, 237, 0.4);
-            color: white;
-            transform: translateY(-2px);
+        .tab.active[data-status="open"] {
+            color: var(--accent-green);
+            border-bottom-color: var(--accent-green);
         }
 
-        .chip.active {
-            border-color: rgba(124, 58, 237, 0.8);
-            color: white;
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.25), rgba(16, 185, 129, 0.2));
-            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.3), 0 0 0 1px rgba(124, 58, 237, 0.2);
-            transform: translateY(-2px);
+        .tab.active[data-status="upcoming"] {
+            color: var(--accent-orange);
+            border-bottom-color: var(--accent-orange);
         }
 
-        /* Board Selection */
-        .board-select-row {
+        .tab.active[data-status="closed"] {
+            color: var(--accent-red);
+            border-bottom-color: var(--accent-red);
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: var(--bg-secondary);
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 113px;
+            z-index: 98;
+        }
+
+        .filter-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .board-filters {
             display: flex;
             gap: 20px;
             align-items: center;
-            padding-left: 4px;
         }
 
-        .checkbox-label {
+        .board-filter {
             display: flex;
             align-items: center;
             gap: 8px;
             cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--muted);
             user-select: none;
-            transition: color 0.2s;
         }
 
-        .checkbox-label:hover {
-            color: white;
-        }
-
-        .checkbox-label input {
-            display: none;
-        }
-
-        .custom-check {
+        .board-filter input[type="checkbox"] {
             width: 20px;
             height: 20px;
-            border: 1.5px solid #475569;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            background: rgba(255, 255, 255, 0.02);
+            cursor: pointer;
+            accent-color: var(--accent-blue);
         }
 
-        .checkbox-label input:checked+.custom-check {
-            background: var(--accent);
-            border-color: var(--accent);
-            box-shadow: 0 0 10px rgba(124, 58, 237, 0.4);
+        .board-filter label {
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
         }
 
-        .custom-check svg {
-            width: 14px;
-            height: 14px;
-            color: white;
-            opacity: 0;
-            transform: scale(0.5);
-            transition: all 0.2s;
+        /* Sort button removed as requested */
+
+        .active-filter-badge {
+            text-align: center;
+            padding: 8px;
+            font-size: 12px;
+            color: var(--text-muted);
+            background: var(--bg-primary);
         }
 
-        .checkbox-label input:checked+.custom-check svg {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* --- Main content --- */
+        /* Main Content */
         main {
-            padding: 0 clamp(20px, 5vw, 48px) 48px;
-            position: relative;
-            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 16px 20px;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 24px;
+        /* IPO Cards */
+        .ipo-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: var(--shadow);
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(20px) saturate(180%);
-            position: relative;
-            overflow: hidden;
-            animation: fadeInUp 0.6s ease-out both;
-        }
-
-        .card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: 20px;
-            padding: 1.5px;
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.5), rgba(16, 185, 129, 0.4), rgba(59, 130, 246, 0.3));
-            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-            -webkit-mask-composite: xor;
-            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            pointer-events: none;
-        }
-
-        .card:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: rgba(124, 58, 237, 0.5);
-            box-shadow: var(--shadow-lg), 0 0 40px rgba(124, 58, 237, 0.2);
-        }
-
-        .card:hover::before {
-            opacity: 1;
+        .ipo-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
         }
 
         .card-header {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
             gap: 12px;
+            margin-bottom: 12px;
         }
 
-        .card h3 {
-            margin: 0;
-            font-size: 18px;
+        .company-logo {
+            width: 56px;
+            height: 56px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
             font-weight: 700;
-            line-height: 1.4;
             color: white;
+            flex-shrink: 0;
+        }
+
+        .card-title {
             flex: 1;
         }
 
-        .badge {
-            padding: 6px 12px;
-            border-radius: 10px;
-            font-size: 11px;
+        .company-name {
+            font-size: 16px;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            white-space: nowrap;
-        }
-
-        .badge.open {
-            background: rgba(16, 185, 129, 0.2);
-            color: #34d399;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .badge.upcoming {
-            background: rgba(124, 58, 237, 0.2);
-            color: #c084fc;
-            border: 1px solid rgba(124, 58, 237, 0.3);
-        }
-
-        .badge.closed {
-            background: rgba(248, 113, 113, 0.2);
-            color: #fca5a5;
-            border: 1px solid rgba(248, 113, 113, 0.3);
-        }
-
-        .tag-row {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .tag {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
-            padding: 6px 12px;
-            border-radius: 10px;
-            font-size: 12px;
-            color: var(--muted);
-            font-weight: 500;
-        }
-
-        .pill-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            border-radius: 999px;
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(16, 185, 129, 0.15));
-            border: 1px solid rgba(124, 58, 237, 0.2);
-            font-size: 12px;
-            color: #e2e8f0;
-            font-weight: 700;
-            letter-spacing: 0.2px;
-        }
-
-        .pill-badge .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #10b981;
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .meta {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 12px;
-            font-size: 13px;
-            color: var(--muted);
-        }
-
-        .meta strong {
-            display: block;
-            color: white;
             margin-bottom: 4px;
-            font-size: 14px;
-            font-weight: 700;
+            line-height: 1.3;
         }
 
-        .metrics {
+        .company-board {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .card-divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 12px 0;
+        }
+
+        .card-info {
             display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 10px;
-            margin-top: 4px;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px 16px;
+            margin-bottom: 12px;
         }
 
-        .metric {
-            padding: 12px 8px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border);
-            text-align: center;
-            transition: all 0.3s ease;
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
         }
 
-        .metric:hover {
-            background: rgba(255, 255, 255, 0.06);
-            transform: translateY(-2px);
+        .info-label {
+            font-size: 12px;
+            color: var(--text-secondary);
         }
 
-        .metric .label {
-            font-size: 10px;
-            letter-spacing: 0.5px;
-            color: var(--muted);
-            text-transform: uppercase;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-
-        .metric .value {
-            font-size: 15px;
-            font-weight: 800;
-            color: #e5e7eb;
-        }
-
-        details {
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 16px;
-            background: rgba(255, 255, 255, 0.02);
-            transition: all 0.3s ease;
-        }
-
-        details[open] {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(124, 58, 237, 0.3);
-        }
-
-        summary {
-            cursor: pointer;
-            font-weight: 700;
-            color: white;
-            list-style: none;
-            font-size: 14px;
-            padding: 4px 0;
-            transition: color 0.2s ease;
-        }
-
-        summary:hover {
-            color: #c084fc;
-        }
-
-        summary::marker {
-            display: none;
-        }
-
-        summary::-webkit-details-marker {
-            display: none;
-        }
-
-        .note {
+        .info-value {
             font-size: 13px;
-            color: var(--muted);
-            margin-top: 8px;
-            line-height: 1.6;
+            font-weight: 600;
+            text-align: right;
         }
 
-        .detail-grid {
+        .gmp-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .gmp-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .gmp-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent-green);
+        }
+
+        .card-actions {
             display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 12px;
-            color: var(--muted);
-            font-size: 13px;
+            grid-template-columns: 1fr 60px;
+            gap: 8px;
             margin-top: 12px;
         }
 
-        .detail-grid strong {
-            display: block;
-            color: white;
-            margin-bottom: 4px;
-            font-weight: 700;
-        }
-
-        .list {
-            margin: 12px 0 0;
-            padding-left: 20px;
-            color: var(--muted);
+        .btn {
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
             font-size: 13px;
-            line-height: 1.7;
-        }
-
-        .list li {
-            margin-bottom: 6px;
-        }
-
-        .actions {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 16px;
-        }
-
-        a.button,
-        button {
-            border: none;
-            border-radius: 12px;
-            padding: 12px 18px;
-            font-weight: 700;
-            font-size: 14px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .btn-view {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-share {
+            background: var(--accent-blue);
             color: white;
-            text-decoration: none;
-            display: inline-flex;
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            flex: 1;
-            min-width: 140px;
+            font-size: 18px;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #7c3aed, #10b981);
-            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+        .btn:hover {
+            opacity: 0.9;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(124, 58, 237, 0.5);
-        }
-
-        .btn-ghost {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
-            color: var(--muted);
-        }
-
-        .btn-ghost:hover {
-            background: rgba(255, 255, 255, 0.1);
+        .board-badge {
+            margin-top: 12px;
+            padding: 8px;
+            background: var(--accent-orange);
             color: white;
-            transform: translateY(-2px);
+            text-align: center;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            pointer-events: none;
+            user-select: none;
         }
 
-        .btn-disabled {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px dashed rgba(255, 255, 255, 0.15);
-            color: #64748b;
-            cursor: not-allowed;
-            box-shadow: none;
+        .board-badge.mainboard {
+            background: var(--accent-purple);
         }
 
-        .btn-link {
-            padding: 0;
-            border: none;
-            background: none;
-            color: #a5b4fc;
-            font-weight: 600;
-            text-decoration: underline;
-            text-underline-offset: 4px;
-        }
-
-        .btn-link:hover {
-            color: #818cf8;
-        }
-
+        /* Empty State */
         .empty {
             text-align: center;
-            color: var(--muted);
             padding: 60px 20px;
-            border: 2px dashed var(--border);
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.02);
-            font-size: 16px;
+            color: var(--text-muted);
         }
 
-        @media (max-width: 768px) {
-            .grid {
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: block;
+        }
+
+        .modal-content {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            background: var(--bg-secondary);
+            z-index: 10;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .btn-close {
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 24px;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .btn-close:hover {
+            background: var(--bg-card);
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .detail-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .detail-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .detail-table th,
+        .detail-table td {
+            padding: 10px 12px;
+            text-align: left;
+            font-size: 13px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .detail-table th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .detail-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            font-size: 13px;
+            text-align: right;
+        }
+
+        .highlights-list {
+            list-style: none;
+        }
+
+        .highlights-list li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .highlights-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: 700;
+        }
+
+        @media (max-width: 640px) {
+            .card-info {
                 grid-template-columns: 1fr;
+                gap: 8px;
             }
 
-            /* Reset header layout logic for mobile if needed, but sticky top usually works ok */
-            .search {
-                max-width: 100%;
+            .filter-section {
+                top: 65px;
             }
 
-            .board-select-row {
-                flex-wrap: wrap;
+            .tabs {
+                top: 65px;
             }
         }
     </style>
 </head>
 
 <body>
-
-    <!-- Premium Splash Screen -->
-    <div id="splash" class="splash">
-        <div class="splash-content">
-            <div class="splash-logo-wrap">
-                <div class="splash-logo-inner">
-                    <!-- Placeholder Logo for demo -->
-                    <div
-                        style="font-size:32px; font-weight:900; background:linear-gradient(135deg, #7c3aed, #10b981); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
-                        IPO</div>
-                </div>
-            </div>
-            <div class="splash-title">IPO JSS</div>
-            <div class="splash-subtitle">Trade GMP. Trade Smart.</div>
-            <div class="loader-line">
-                <div class="loader-fill"></div>
-            </div>
+    <!-- Splash Screen -->
+    <div class="splash-screen">
+        <div class="splash-logo">
+            <img src="https://i.postimg.cc/DSLRTB8m/file-00000000ff4471fd807ff67a7c231bf8-2.png" alt="IPO JSS Logo">
         </div>
+        <div class="splash-text">IPO JSS</div>
+        <div class="splash-subtitle">Live IPO Updates & Analysis</div>
     </div>
 
     <header>
-        <div class="header-top">
-            <div class="brand">
-                <div class="brand-logo">
-                    <img src="https://i.postimg.cc/DSLRTB8m/file-00000000ff4471fd807ff67a7c231bf8-2.png" alt="Logo"
-                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'width:100%;height:100%;background:linear-gradient(135deg,#7c3aed,#10b981);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:white;\'>IPO</div>'">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="header-logo">
+                    <img src="https://i.postimg.cc/DSLRTB8m/file-00000000ff4471fd807ff67a7c231bf8-2.png" alt="IPO JSS">
                 </div>
-                <div class="brand-text">
-                    <div class="brand-name">IPO JSS</div>
-                    <div class="brand-tagline">Trade GMP. Trade Smart.</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="filter-wrapper">
-            <!-- First Row: Search & Chips -->
-            <div class="filter-row">
-                <div class="search">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="11" cy="11" r="7" />
-                        <line x1="16.65" y1="16.65" x2="21" y2="21" />
-                    </svg>
-                    <input id="search-input" placeholder="Search IPOs by company or sector..." />
-                </div>
-                <div class="filters">
-                    <div class="chip active" data-filter="open">Open</div>
-                    <div class="chip" data-filter="upcoming">Upcoming</div>
-                    <div class="chip" data-filter="closed">Closed</div>
+                <div class="header-title">
+                    <h1>IPO JSS</h1>
+                    <div class="header-subtitle">Live IPO Updates</div>
                 </div>
             </div>
-
-            <!-- Second Row: Board Checkboxes -->
-            <div class="board-select-row">
-                <label class="checkbox-label">
-                    <input type="checkbox" id="chk-mainboard" checked>
-                    <span class="custom-check">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="20 6 9 17 4 12" />
-                        </svg>
-                    </span>
-                    Mainboard
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" id="chk-sme" checked>
-                    <span class="custom-check">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="20 6 9 17 4 12" />
-                        </svg>
-                    </span>
-                    SME
-                </label>
+            <div class="header-actions">
+                <div class="icon-btn" onclick="openSearch()" title="Search IPOs">
+                    🔍
+                </div>
+                <div class="icon-btn notification-badge" onclick="showNotifications()" title="Notifications">
+                    🔔
+                </div>
             </div>
         </div>
     </header>
 
-    <main>
-        <div id="grid" class="grid"></div>
-        <div id="empty" class="empty" hidden>No IPO found. Try changing filters.</div>
-    </main>
+    <div class="tabs">
+        <button class="tab active" data-status="open" onclick="setFilter('open')">OPEN</button>
+        <button class="tab" data-status="upcoming" onclick="setFilter('upcoming')">UPCOMING</button>
+        <button class="tab" data-status="closed" onclick="setFilter('closed')">CLOSED</button>
+    </div>
 
-    <!-- Firebase SDK and Application Logic -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+    <div class="filter-section">
+        <div class="filter-content">
+            <div class="board-filters">
+                <div class="board-filter">
+                    <input type="checkbox" id="mainboard-filter" checked onchange="applyFilter()">
+                    <label for="mainboard-filter">MAINBOARD</label>
+                </div>
+                <div class="board-filter">
+                    <input type="checkbox" id="sme-filter" checked onchange="applyFilter()">
+                    <label for="sme-filter">SME</label>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        // Firebase config
-        const firebaseConfig = {
-            apiKey: "AIzaSyCLlAwpMV-sAEFYxBPPFyS_K_AxN1S-hYs",
-            authDomain: "ipo-jss-94f8a.firebaseapp.com",
-            databaseURL: "https://ipo-jss-94f8a-default-rtdb.firebaseio.com",
-            projectId: "ipo-jss-94f8a",
-            storageBucket: "ipo-jss-94f8a.firebasestorage.app",
-            messagingSenderId: "640345356664",
-            appId: "1:640345356664:web:737575296bd778424e308d",
-            measurementId: "G-6YFSTHR8H5"
-        };
+    <div class="active-filter-badge" id="filter-badge"></div>
 
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+    <main id="container"></main>
 
+    <div class="empty" id="empty" hidden>No IPO found. Try changing filters.</div>
+
+    <!-- Search Modal -->
+    <div class="search-modal" id="search-modal">
+        <div class="search-header">
+            <input type="text" class="search-input" id="search-input" placeholder="Search IPO by name..." autofocus>
+            <button class="icon-btn" onclick="closeSearch()">✕</button>
+        </div>
+        <div class="search-results" id="search-results"></div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div class="modal" id="detail-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-company-name"></div>
+                <button class="btn-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+        </div>
+    </div>
+
+    <script>
+        // Static IPO Data
         const DEFAULT_IPO_LIST = [
             {
                 name: "Rurih Industries",
@@ -1021,7 +778,7 @@
                 business: "Aromatic intermediates & performance additives",
                 registrar: "KFintech",
                 leadManagers: "Axis Capital, ICICI Securities",
-                website: "https://rurihindustries.com",
+                website: "#",
                 highlights: [
                     "70% capacity utilisation; brownfield expansion underway",
                     "Long-term contracts with EU agrochemical majors",
@@ -1051,7 +808,7 @@
                 business: "E-axles, battery packs, BMS software for 2W/4W EVs",
                 registrar: "Link Intime",
                 leadManagers: "Kotak, JM Financial",
-                website: "https://novamobility.com",
+                website: "#",
                 highlights: [
                     "Order book: ₹3,400 Cr; 60% from repeat OEMs",
                     "Backward integrated for cells & power electronics",
@@ -1061,189 +818,369 @@
         ];
 
         let IPO_LIST = DEFAULT_IPO_LIST;
+        let currentFilter = 'open';
 
-        async function initializeIpos() {
-            try {
-                console.log("Fetching IPOs from Realtime Database...");
-                const snapshot = await get(ref(db, "ipos"));
-                const data = snapshot.val();
-
-                if (data) {
-                    // Convert object to array matching expected format
-                    IPO_LIST = Object.entries(data).map(([id, ipo]) => ({
-                        id,
-                        name: ipo.name || "",
-                        status: ipo.status?.toLowerCase() || "upcoming",
-                        board: ipo.board || "Mainboard",
-                        openDate: ipo.open || "",
-                        closeDate: ipo.close || "",
-                        priceBand: ipo.priceBand || "",
-                        lotSize: ipo.lot || "",
-                        issueSize: ipo.issueSize || "",
-                        allotment: ipo.allotment || "",
-                        listing: ipo.listing || "",
-                        gmp: ipo.gmp || "",
-                        listingGains: ipo.listingGains || null,
-                        subscribers: ipo.subs || "—",
-                        qib: ipo.qib || "—",
-                        nii: ipo.nii || "—",
-                        retail: ipo.retail || "—",
-                        description: ipo.description || `${ipo.industry || "IPO"} offering`,
-                        sector: ipo.industry || "",
-                        exchange: ipo.exchange || "NSE | BSE",
-                        business: ipo.business || ipo.industry || "",
-                        registrar: ipo.registrar || "",
-                        leadManagers: ipo.leadManagers || "",
-                        website: ipo.detailUrl || "#",
-                        highlights: ipo.highlights ? ipo.highlights.split('\n').filter(h => h.trim()) : []
-                    }));
-                    console.log(`Loaded ${IPO_LIST.length} IPOs from Firebase`);
-                } else {
-                    console.warn("No IPOs found in database, using defaults");
-                }
-            } catch (error) {
-                console.error("Error loading IPOs:", error);
-                console.log("Falling back to default data");
-            }
-
-            // Apply the filter (defaults to 'open')
-            applyFilter();
+        function getInitials(name) {
+            return name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
         }
 
+        function getLogoColor(index) {
+            const colors = [
+                'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+                'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+                'linear-gradient(135deg, #30cfd0 0%, #330867 100%)'
+            ];
+            return colors[index % colors.length];
+        }
 
+        function shareIPO(ipo, event) {
+            event.stopPropagation();
 
-        const grid = document.getElementById("grid");
-        const empty = document.getElementById("empty");
-        const searchInput = document.getElementById("search-input");
-        const chips = [...document.querySelectorAll(".chip")];
-        const chkMainboard = document.getElementById("chk-mainboard");
-        const chkSme = document.getElementById("chk-sme");
+            const shareText = `📊 ${ipo.name} IPO Details\n\n` +
+                `💰 Price Band: ${ipo.priceBand}\n` +
+                `📅 Dates: ${ipo.openDate} - ${ipo.closeDate}\n` +
+                `📈 GMP: ${ipo.gmp}\n` +
+                `💵 Issue Size: ${ipo.issueSize}\n` +
+                `📦 Lot Size: ${ipo.lotSize}\n\n` +
+                `Via IPO JSS App`;
 
-        let activeFilter = "open";
+            // Try native share first
+            if (navigator.share) {
+                navigator.share({
+                    title: ipo.name + ' IPO',
+                    text: shareText
+                }).catch((err) => {
+                    // If share fails, copy to clipboard
+                    copyToClipboard(shareText);
+                });
+            } else {
+                // Fallback to clipboard
+                copyToClipboard(shareText);
+            }
+        }
 
-        const statusLabel = {
-            open: { text: "Open", cls: "open" },
-            upcoming: { text: "Upcoming", cls: "upcoming" },
-            closed: { text: "Closed", cls: "closed" },
-        };
+        function copyToClipboard(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('✓ IPO details copied to clipboard!');
+                }).catch(() => {
+                    fallbackCopy(text);
+                });
+            } else {
+                fallbackCopy(text);
+            }
+        }
 
-        function render(list) {
-            grid.innerHTML = "";
-            if (!list || !list.length) {
+        function fallbackCopy(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast('✓ IPO details copied!');
+            } catch (err) {
+                showToast('❌ Copy failed. Please try again.');
+            }
+            document.body.removeChild(textarea);
+        }
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 30px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #1e2530;
+                color: white;
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 600;
+                z-index: 10000;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+                animation: slideUp 0.3s ease-out;
+            `;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideDown 0.3s ease-out';
+                setTimeout(() => document.body.removeChild(toast), 300);
+            }, 2000);
+        }
+
+        function renderIPOs(list) {
+            const container = document.getElementById('container');
+            const empty = document.getElementById('empty');
+
+            container.innerHTML = '';
+
+            if (list.length === 0) {
                 empty.hidden = false;
                 return;
             }
+
             empty.hidden = true;
 
             list.forEach((ipo, index) => {
-                const statusObj = statusLabel[ipo.status] || { text: ipo.status, cls: "upcoming" };
-
-                const card = document.createElement("div");
-                card.className = "card";
-                card.style.animationDelay = `${index * 0.05}s`;
-
-                const highlightsHtml = ipo.highlights ? ipo.highlights.map(item => `<li>${item}</li>`).join("") : "";
+                const card = document.createElement('div');
+                card.className = 'ipo-card';
+                card.onclick = () => openModal(ipo);
 
                 card.innerHTML = `
-          <div class="card-header">
-            <h3>${ipo.name}</h3>
-            <span class="badge ${statusObj.cls}">${statusObj.text}</span>
-          </div>
-          <div class="tag-row">
-            <div class="tag">Open: ${ipo.openDate}</div>
-            <div class="tag">Close: ${ipo.closeDate}</div>
-            <div class="tag">Exchange: ${ipo.exchange}</div>
-            <div class="tag">Sector: ${ipo.sector}</div>
-            <div class="pill-badge"><span class="dot"></span>${ipo.board || "Mainboard"}</div>
-          </div>
-          <div class="meta">
-            <div><strong>Price Band</strong>${ipo.priceBand}</div>
-            <div><strong>Lot Size</strong>${ipo.lotSize}</div>
-            <div><strong>Issue Size</strong>${ipo.issueSize}</div>
-            <div><strong>GMP</strong>${ipo.gmp ?? "—"}</div>
-            <div><strong>Allotment</strong>${ipo.allotment}</div>
-            <div><strong>Listing</strong>${ipo.listing}</div>
-            <div><strong>Listing Gains</strong>${ipo.listingGains ?? "—"}</div>
-          </div>
-          <div class="metrics">
-            <div class="metric"><div class="label">Subscribers</div><div class="value">${ipo.subscribers ?? "—"}</div></div>
-            <div class="metric"><div class="label">QIB</div><div class="value">${ipo.qib ?? "—"}</div></div>
-            <div class="metric"><div class="label">NII</div><div class="value">${ipo.nii ?? "—"}</div></div>
-            <div class="metric"><div class="label">Retail</div><div class="value">${ipo.retail ?? "—"}</div></div>
-          </div>
-          <details>
-            <summary>Details & Allotment</summary>
-            <p class="note">${ipo.description}</p>
-            <div class="detail-grid">
-              <div><strong>Business</strong>${ipo.business}</div>
-              <div><strong>Issue Size</strong>${ipo.issueSize}</div>
-              <div><strong>Registrar</strong>${ipo.registrar}</div>
-              <div><strong>Lead Managers</strong>${ipo.leadManagers}</div>
-              <div><strong>Website</strong><br><a class="btn-link" href="${ipo.website || '#'}" target="_blank" rel="noopener">Visit</a></div>
-            </div>
-            <ul class="list">
-              ${highlightsHtml}
-            </ul>
-            <div class="actions">
-              ${ipo.status === "closed"
-                        ? `<a class="button btn-primary" href="https://ipostatus.kfintech.com" target="_blank" rel="noopener">Allotment Check</a>`
-                        : `<button class="btn-disabled" disabled>Waiting for allotment</button>`
-                    }
-              <a class="button btn-ghost" href="${ipo.website || '#'}" target="_blank" rel="noopener">Company Details</a>
-            </div>
-          </details>
-        `;
-                grid.appendChild(card);
+                    <div class="card-header">
+                        <div class="company-logo" style="background: ${getLogoColor(index)}">
+                            ${getInitials(ipo.name)}
+                        </div>
+                        <div class="card-title">
+                            <div class="company-name">${ipo.name}</div>
+                            <div class="company-board">(${ipo.board.toUpperCase()})</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-divider"></div>
+                    
+                    <div class="card-info">
+                        <div class="info-item">
+                            <span class="info-label">Date:</span>
+                            <span class="info-value">${ipo.openDate} - ${ipo.closeDate}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Price:</span>
+                            <span class="info-value">${ipo.priceBand}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Lot Size:</span>
+                            <span class="info-value">${ipo.lotSize}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Issue Size:</span>
+                            <span class="info-value">${ipo.issueSize}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="gmp-section">
+                        <span class="gmp-label">GMP Rumors*:</span>
+                        <span class="gmp-value">${ipo.gmp}</span>
+                    </div>
+                    
+                    ${ipo.status !== 'upcoming' ? `
+                    <div style="padding-top:8px; border-top:1px solid var(--border-color); margin-top:8px;">
+                        <div class="info-item">
+                            <span class="info-label">Allotment Date</span>
+                            <span class="info-value">${ipo.allotment}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Listing Date</span>
+                            <span class="info-value">${ipo.listing}</span>
+                        </div>
+                    </div>
+                    ` : ''}
+                    
+                    <div class="card-actions">
+                        <button class="btn btn-view" onclick="event.stopPropagation(); openModal(this.closest('.ipo-card').__ipo)">VIEW</button>
+                        <button class="btn btn-share" onclick="shareIPO(this.closest('.ipo-card').__ipo, event)" title="Share IPO">📤</button>
+                    </div>
+                    
+                    <div class="board-badge ${ipo.board.toLowerCase()}">${ipo.board.toUpperCase()}</div>
+                `;
+
+                card.__ipo = ipo;
+                container.appendChild(card);
             });
+        }
+
+        function setFilter(status) {
+            currentFilter = status;
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.tab[data-status="${status}"]`).classList.add('active');
+            applyFilter();
         }
 
         function applyFilter() {
-            const q = searchInput.value.trim().toLowerCase();
-            const showMain = chkMainboard.checked;
-            const showSme = chkSme.checked;
+            const mainboardChecked = document.getElementById('mainboard-filter').checked;
+            const smeChecked = document.getElementById('sme-filter').checked;
 
-            const filtered = IPO_LIST.filter((ipo) => {
-                // Status
-                const byStatus = activeFilter === "all" || ipo.status === activeFilter;
-
-                // Text
-                const byText = !q || (ipo.name && ipo.name.toLowerCase().includes(q)) || (ipo.sector && ipo.sector.toLowerCase().includes(q));
-
-                // Board
-                const isSme = (ipo.board || "").toUpperCase() === "SME";
-                const byBoard = (isSme && showSme) || (!isSme && showMain);
-
-                return byStatus && byText && byBoard;
+            let filtered = IPO_LIST.filter(ipo => {
+                const statusMatch = ipo.status.toLowerCase() === currentFilter;
+                const boardMatch = (mainboardChecked && ipo.board.toLowerCase() === 'mainboard') ||
+                    (smeChecked && ipo.board.toLowerCase() === 'sme');
+                return statusMatch && boardMatch;
             });
-            render(filtered);
+
+            const badge = document.getElementById('filter-badge');
+            if (!mainboardChecked || !smeChecked) {
+                const activeBoards = [];
+                if (mainboardChecked) activeBoards.push('Mainboard');
+                if (smeChecked) activeBoards.push('SME');
+                badge.textContent = `Filtered by ${activeBoards.join(' & ')}`;
+                badge.style.display = 'block';
+            } else {
+                badge.style.display = 'none';
+            }
+
+            renderIPOs(filtered);
         }
 
-        chips.forEach((chip) => {
-            chip.addEventListener("click", () => {
-                chips.forEach((c) => c.classList.remove("active"));
-                chip.classList.add("active");
-                activeFilter = chip.dataset.filter;
-                applyFilter();
-            });
-        });
+        function openSearch() {
+            const modal = document.getElementById('search-modal');
+            const input = document.getElementById('search-input');
+            modal.classList.add('active');
+            input.value = '';
+            input.focus();
+            renderSearchResults('');
 
-        searchInput.addEventListener("input", applyFilter);
-        chkMainboard.addEventListener("change", applyFilter);
-        chkSme.addEventListener("change", applyFilter);
+            input.oninput = (e) => renderSearchResults(e.target.value);
+        }
+
+        function closeSearch() {
+            document.getElementById('search-modal').classList.remove('active');
+        }
+
+        function renderSearchResults(query) {
+            const results = document.getElementById('search-results');
+            const filtered = query.trim() === '' ? IPO_LIST :
+                IPO_LIST.filter(ipo => ipo.name.toLowerCase().includes(query.toLowerCase()));
+
+            results.innerHTML = '';
+            filtered.forEach((ipo, index) => {
+                const card = document.createElement('div');
+                card.className = 'ipo-card';
+                card.onclick = () => {
+                    closeSearch();
+                    openModal(ipo);
+                };
+
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="company-logo" style="background: ${getLogoColor(index)}">
+                            ${getInitials(ipo.name)}
+                        </div>
+                        <div class="card-title">
+                            <div class="company-name">${ipo.name}</div>
+                            <div class="company-board">${ipo.status.toUpperCase()} • ${ipo.board}</div>
+                        </div>
+                    </div>
+                `;
+                results.appendChild(card);
+            });
+        }
+
+        function showNotifications() {
+            alert('Notifications:\n\n• GMP updates will appear here\n• New IPO announcements\n• Allotment results\n\n(Feature coming soon!)');
+        }
+
+        function openModal(ipo) {
+            const modal = document.getElementById('detail-modal');
+            const modalBody = document.getElementById('modal-body');
+            document.getElementById('modal-company-name').textContent = ipo.name;
+
+            modalBody.innerHTML = `
+                <div class="detail-section">
+                    <div class="section-title">IPO Details</div>
+                    <div class="detail-row">
+                        <span class="detail-label">Total Issue Size</span>
+                        <span class="detail-value">${ipo.issueSize}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Price Band</span>
+                        <span class="detail-value">${ipo.priceBand}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Lot Size</span>
+                        <span class="detail-value">${ipo.lotSize}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Listing At</span>
+                        <span class="detail-value">${ipo.exchange}</span>
+                    </div>
+                </div>
+                
+                ${ipo.status !== 'upcoming' ? `
+                <div class="detail-section">
+                    <div class="section-title">Subscription Details</div>
+                    <table class="detail-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Times</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>QIB</td>
+                                <td>${ipo.qib}</td>
+                            </tr>
+                            <tr>
+                                <td>NII</td>
+                                <td>${ipo.nii}</td>
+                            </tr>
+                            <tr>
+                                <td>Retail</td>
+                                <td>${ipo.retail}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total</strong></td>
+                                <td><strong>${ipo.subscribers}</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                ` : ''}
+                
+                ${ipo.highlights && ipo.highlights.length > 0 ? `
+                <div class="detail-section">
+                    <div class="section-title">Key Highlights</div>
+                    <ul class="highlights-list">
+                        ${ipo.highlights.map(h => `<li>${h}</li>`).join('')}
+                    </ul>
+                </div>
+                ` : ''}
+                
+                <div class="detail-section">
+                    <div class="section-title">Registrar</div>
+                    <div class="detail-row">
+                        <span class="detail-label">Name</span>
+                        <span class="detail-value">${ipo.registrar}</span>
+                    </div>
+                </div>
+                
+                ${ipo.leadManagers ? `
+                <div class="detail-section">
+                    <div class="section-title">Lead Manager(s)</div>
+                    <div class="detail-value">${ipo.leadManagers}</div>
+                </div>
+                ` : ''}
+                
+                <div class="detail-section">
+                    <div class="section-title">About</div>
+                    <p style="font-size:13px; line-height:1.6; color:var(--text-secondary);">
+                        ${ipo.business || ipo.description}
+                    </p>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('detail-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
 
         // Initialize
-        window.addEventListener("load", () => {
-            // Splash
-            setTimeout(() => {
-                const splash = document.getElementById("splash");
-                if (splash) {
-                    splash.classList.add("hidden");
-                    setTimeout(() => splash.style.display = "none", 800);
-                }
-            }, 2500);
-
-            initializeIpos();
-        });
+        applyFilter();
     </script>
 </body>
+
 </html>
