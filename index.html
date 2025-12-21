@@ -1244,11 +1244,11 @@
                     </table>
                 </div>
                 
-                ${ipo.highlights && ipo.highlights.length > 0 ? `
+                ${ipo.highlights ? `
                 <div class="detail-section">
                     <div class="section-title">Key Highlights</div>
                     <ul class="highlights-list">
-                        ${ipo.highlights.map(h => `<li>${h}</li>`).join('')}
+                        ${(Array.isArray(ipo.highlights) ? ipo.highlights : ipo.highlights.split('\n')).filter(h => h.trim()).map(h => `<li>${h}</li>`).join('')}
                     </ul>
                 </div>
                 ` : ''}
@@ -1323,6 +1323,8 @@
         window.closeSearch = closeSearch;
         window.showNotifications = showNotifications;
         window.closeModal = closeModal;
+        window.openModal = openModal;
+        window.shareIPO = shareIPO;
 
         // Start
         fetchIPOsFromFirebase();
