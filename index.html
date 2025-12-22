@@ -612,11 +612,21 @@
         }
 
         .modal-content {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
-            background: var(--bg-secondary);
-            border-radius: 12px;
+            background: var(--bg-primary);
+            min-height: 100vh;
             position: relative;
+        }
+
+        @media (max-width: 640px) {
+            .modal {
+                padding: 0;
+            }
+
+            .modal-content {
+                border-radius: 0;
+            }
         }
 
         .modal-header {
@@ -1253,15 +1263,20 @@
         async function fetchNotifications() {
             const list = document.getElementById('notif-list');
             try {
-                // Fetch last 15 updates from a dedicated notifications node
                 const snap = await get(ref(db, "notifications"));
-                const data = snap.val();
-                if (!data) {
+                const data = snap.val() || {};
+
+                const dismissed = JSON.parse(localStorage.getItem('dismissedNotifs') || '[]');
+                const notifs = Object.entries(data)
+                    .map(([id, n]) => ({ ...n, id }))
+                    .filter(n => !dismissed.includes(n.id))
+                    .reverse(); // Newest first
+
+                if (notifs.length === 0) {
                     list.innerHTML = '<div class="muted" style="padding:20px; text-align:center;">No recent updates</div>';
                     return;
                 }
 
-                const notifs = Object.values(data).reverse(); // Newest first
                 list.innerHTML = notifs.map(n => {
                     let icon = '📢';
                     if (n.message.toLowerCase().includes('anchor')) icon = '⚓';
@@ -1271,7 +1286,8 @@
                     const dateStr = new Date(n.timestamp).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
 
                     return `
-                    <div class="notification-item" style="padding: 16px;">
+                    <div class="notification-item" id="notif-${n.id}" style="padding: 16px; position: relative; border-bottom: 1px solid var(--border-color);">
+                        <button onclick="dismissNotification('${n.id}')" style="position:absolute; right:12px; top:12px; background:var(--bg-card); border:1px solid var(--border-color); color:var(--text-muted); width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px;">&times;</button>
                         <div class="company-logo" style="width: 48px; height: 48px; border-radius: 8px; background: #fff;">
                            <img src="https://i.postimg.cc/DSLRTB8m/file-00000000ff4471fd807ff67a7c231bf8-2.png" style="width: 100%; height: 100%; object-fit: contain;">
                         </div>
@@ -1280,7 +1296,7 @@
                                 <span>${icon}</span>
                                 <span>${n.ipoName || 'IPO Update'} (${n.board || 'SME'})</span>
                             </div>
-                            <div style="font-size: 14px; color: var(--text-secondary); margin-top: 6px; line-height: 1.4;">
+                            <div style="font-size: 14px; color: var(--text-secondary); margin-top: 6px; line-height: 1.4; padding-right: 30px;">
                                 ${n.message}
                             </div>
                             <div class="notification-meta">
@@ -1294,6 +1310,20 @@
                 list.innerHTML = '<div class="muted" style="padding:20px; text-align:center;">Error loading updates</div>';
             }
         }
+
+        window.dismissNotification = (id) => {
+            const dismissed = JSON.parse(localStorage.getItem('dismissedNotifs') || '[]');
+            dismissed.push(id);
+            localStorage.setItem('dismissedNotifs', JSON.stringify(dismissed));
+            const el = document.getElementById(`notif-${id}`);
+            if (el) el.style.display = 'none';
+
+            // Check if all gone
+            const list = document.getElementById('notif-list');
+            if (Array.from(list.children).every(child => child.style.display === 'none')) {
+                list.innerHTML = '<div class="muted" style="padding:20px; text-align:center;">No recent updates</div>';
+            }
+        };
 
 
         function openModal(ipo) {
@@ -1451,6 +1481,26 @@
                     </table>
                 </div>
                 
+                <div class="detail-section" style="margin-top: 8px;">
+                    <div class="section-title">Quick Actions</div>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        ${ipo.drhpUrl ? `
+                            <a href="${ipo.drhpUrl}" target="_blank" class="btn btn-light-blue" style="width: 100%; text-decoration: none;">DRHP / RHP PDF FILE</a>
+                        ` : ''}
+                        
+                        <button class="btn btn-light-blue" style="width: 100%;" onclick="showPremiumGraph('${ipo.id}')">PREMIUM GRAPH (GMP)</button>
+                    </div>
+                </div>
+
+                <div id="chart-section" style="display:none;">
+                    <div class="detail-section">
+                        <div class="section-title">Premium Chart</div>
+                        <div class="chart-container">
+                            <canvas id="gmpChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
                 ${ipo.highlights ? `
                 <div class="detail-section">
                     <div class="section-title">Key Highlights</div>
@@ -1471,32 +1521,15 @@
                 ${ipo.leadManagers ? `
                 <div class="detail-section">
                     <div class="section-title">Lead Manager(s)</div>
-                    <div class="detail-value">${ipo.leadManagers}</div>
+                    <div class="detail-value" style="font-size: 13px; color: var(--text-primary); font-weight: 500;">${ipo.leadManagers}</div>
                 </div>
                 ` : ''}
                 
                 <div class="detail-section">
-                    <div class="section-title">About</div>
-                    <p style="font-size:13px; line-height:1.6; color:var(--text-secondary); margin-bottom: 16px;">
+                    <div class="section-title">About Company</div>
+                    <p style="font-size:13px; line-height:1.6; color:var(--text-secondary);">
                         ${ipo.business || ipo.description}
                     </p>
-                    
-                    <div style="display: flex; flex-direction: column; gap: 10px;">
-                        ${ipo.drhpUrl ? `
-                            <a href="${ipo.drhpUrl}" target="_blank" class="btn btn-light-blue" style="width: 100%; text-decoration: none;">DRHP / RHP PDF FILE</a>
-                        ` : ''}
-                        
-                        <button class="btn btn-light-blue" style="width: 100%;" onclick="showPremiumGraph('${ipo.id}')">PREMIUM GRAPH (GMP)</button>
-                    </div>
-                </div>
-
-                <div id="chart-section" style="display:none;">
-                    <div class="detail-section">
-                        <div class="section-title">Premium Chart</div>
-                        <div class="chart-container">
-                            <canvas id="gmpChart"></canvas>
-                        </div>
-                    </div>
                 </div>
             `;
 
