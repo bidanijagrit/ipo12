@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPO JSS - Live IPO Updates</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
             margin: 0;
@@ -385,7 +386,7 @@
 
         .company-name-full {
             font-size: 18px;
-            font-weight: 700;
+            font-weight: 600;
             line-height: 1.4;
         }
 
@@ -438,7 +439,7 @@
         }
 
         .info-value-side {
-            font-weight: 600;
+            font-weight: 500;
             color: var(--text-primary);
         }
 
@@ -507,6 +508,16 @@
             opacity: 0.7;
         }
 
+        .btn-light-blue {
+            background: #0ea5e9;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .btn-light-blue:hover {
+            background: #0284c7;
+        }
+
         .disclaimer-text {
             font-size: 12px;
             color: var(--text-secondary);
@@ -526,7 +537,7 @@
         }
 
         .board-badge.mainboard {
-            background: #8b5cf6;
+            background: #0ea5e9;
         }
 
         .board-badge.sme {
@@ -568,6 +579,15 @@
         .notification-time {
             font-size: 11px;
             color: var(--text-muted);
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        .notification-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4px;
         }
 
         .empty {
@@ -731,6 +751,24 @@
             .tabs {
                 top: 65px;
             }
+        }
+
+        /* Chart Canvas Style */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            margin-top: 20px;
+            background: #111827;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .gmp-last-heard {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
         }
     </style>
 </head>
@@ -1075,6 +1113,7 @@
                             <span class="info-label-side">GMP Rumors*:</span>
                             <span class="gmp-value" style="font-size:16px; color: ${getGmpColor(ipo.gmp)}">${ipo.gmp}</span>
                         </div>
+                        ${ipo.lastHeard ? `<div class="gmp-last-heard">Last Heard: <span style="float:right;">${ipo.lastHeard}</span></div>` : ''}
                     </div>
                     
                     <div class="section-divider"></div>
@@ -1107,7 +1146,7 @@
                         ${ipo.status.toLowerCase() === 'closed' ? `
                             <a href="${ipo.allotmentUrl}" target="_blank" class="btn btn-allotment">ALLOTMENT</a>
                         ` : `
-                            <button class="btn btn-allotment btn-disabled" onclick="alert('Allotment not yet available for this IPO.')">ALLOTMENT</button>
+                            <a href="https://web.stockedge.com/ipo" target="_blank" class="btn btn-allotment">APPLY</a>
                         `}
                     </div>
                     
@@ -1223,15 +1262,34 @@
                 }
 
                 const notifs = Object.values(data).reverse(); // Newest first
-                list.innerHTML = notifs.map(n => `
-                    <div class="notification-item">
-                        <div class="notification-icon">🔔</div>
+                list.innerHTML = notifs.map(n => {
+                    let icon = '📢';
+                    if (n.message.toLowerCase().includes('anchor')) icon = '⚓';
+                    if (n.message.toLowerCase().includes('allotment')) icon = '📢';
+                    if (n.message.toLowerCase().includes('highlight')) icon = '📌';
+
+                    const dateStr = new Date(n.timestamp).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
+
+                    return `
+                    <div class="notification-item" style="padding: 16px;">
+                        <div class="company-logo" style="width: 48px; height: 48px; border-radius: 8px; background: #fff;">
+                           <img src="https://i.postimg.cc/DSLRTB8m/file-00000000ff4471fd807ff67a7c231bf8-2.png" style="width: 100%; height: 100%; object-fit: contain;">
+                        </div>
                         <div class="notification-content">
-                            <div class="notification-title">${n.message}</div>
-                            <div class="notification-time">${new Date(n.timestamp).toLocaleString()}</div>
+                            <div class="notification-title" style="font-size: 15px; display: flex; align-items: center; gap: 6px;">
+                                <span>${icon}</span>
+                                <span>${n.ipoName || 'IPO Update'} (${n.board || 'SME'})</span>
+                            </div>
+                            <div style="font-size: 14px; color: var(--text-secondary); margin-top: 6px; line-height: 1.4;">
+                                ${n.message}
+                            </div>
+                            <div class="notification-meta">
+                                <span></span>
+                                <span class="notification-time">📢 ${dateStr}</span>
+                            </div>
                         </div>
                     </div>
-                `).join('');
+                `}).join('');
             } catch (e) {
                 list.innerHTML = '<div class="muted" style="padding:20px; text-align:center;">Error loading updates</div>';
             }
@@ -1303,6 +1361,12 @@
                                 <td>Retail</td>
                                 <td>${ipo.retail}</td>
                             </tr>
+                            ${ipo.board.toLowerCase() === 'sme' ? `
+                            <tr>
+                                <td>Anchor</td>
+                                <td>${ipo.anchorSubs || "—"}</td>
+                            </tr>
+                            ` : ''}
                             <tr>
                                 <td><strong>Total</strong></td>
                                 <td><strong>${ipo.subscribers}</strong></td>
@@ -1369,6 +1433,16 @@
                                 <td>${ipo.resMmPct || "—"}</td>
                             </tr>
                             <tr>
+                                <td>QIB</td>
+                                <td>${ipo.resQibShares || "—"}</td>
+                                <td>${ipo.resQibPct || "—"}</td>
+                            </tr>
+                            <tr>
+                                <td>Anchor</td>
+                                <td>${ipo.resAnchorShares || "—"}</td>
+                                <td>${ipo.resAnchorPct || "—"}</td>
+                            </tr>
+                            <tr>
                                 <td><strong>Total</strong></td>
                                 <td><strong>${ipo.resTotalShares || "—"}</strong></td>
                                 <td><strong>${ipo.resTotalPct || "100.00%"}</strong></td>
@@ -1403,9 +1477,26 @@
                 
                 <div class="detail-section">
                     <div class="section-title">About</div>
-                    <p style="font-size:13px; line-height:1.6; color:var(--text-secondary);">
+                    <p style="font-size:13px; line-height:1.6; color:var(--text-secondary); margin-bottom: 16px;">
                         ${ipo.business || ipo.description}
                     </p>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        ${ipo.drhpUrl ? `
+                            <a href="${ipo.drhpUrl}" target="_blank" class="btn btn-light-blue" style="width: 100%; text-decoration: none;">DRHP / RHP PDF FILE</a>
+                        ` : ''}
+                        
+                        <button class="btn btn-light-blue" style="width: 100%;" onclick="showPremiumGraph('${ipo.id}')">PREMIUM GRAPH (GMP)</button>
+                    </div>
+                </div>
+
+                <div id="chart-section" style="display:none;">
+                    <div class="detail-section">
+                        <div class="section-title">Premium Chart</div>
+                        <div class="chart-container">
+                            <canvas id="gmpChart"></canvas>
+                        </div>
+                    </div>
                 </div>
             `;
 
@@ -1416,6 +1507,89 @@
         function closeModal() {
             document.getElementById('detail-modal').classList.remove('active');
             document.body.style.overflow = '';
+            // Reset chart if exists
+            if (window.myChart) {
+                window.myChart.destroy();
+                window.myChart = null;
+            }
+        }
+
+        window.showPremiumGraph = (id) => {
+            const ipo = IPO_LIST.find(i => i.id === id);
+            const chartSection = document.getElementById('chart-section');
+            chartSection.style.display = 'block';
+
+            // Scroll to chart
+            chartSection.scrollIntoView({ behavior: 'smooth' });
+
+            renderGmpChart(ipo);
+        };
+
+        function renderGmpChart(ipo) {
+            const ctx = document.getElementById('gmpChart').getContext('2d');
+
+            if (window.myChart) {
+                window.myChart.destroy();
+            }
+
+            const history = ipo.gmpHistory || [];
+            if (history.length === 0) {
+                // If no history, use current GMP as single point
+                history.push({
+                    gmp: ipo.gmp || "0",
+                    timestamp: Date.now()
+                });
+            }
+
+            const labels = history.map(h => {
+                return new Date(h.timestamp).toLocaleString('en-IN', {
+                    day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
+                });
+            });
+
+            const data = history.map(h => {
+                // Extract number from GMP (e.g. "+₹42" -> 42, "+22%" -> 22)
+                const val = h.gmp.replace(/[+₹%,]/g, '');
+                return parseFloat(val) || 0;
+            });
+
+            window.myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Premium',
+                        data: data,
+                        borderColor: '#0ea5e9',
+                        backgroundColor: 'rgba(14, 165, 233, 0.1)',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#0ea5e9',
+                        pointRadius: 4,
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: { color: '#2a3140' },
+                            ticks: { color: '#9aa0a6' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#9aa0a6', maxRotation: 45, minRotation: 45, font: { size: 10 } }
+                        }
+                    }
+                }
+            });
         }
 
         // Initialize Firebase Data Fetching
