@@ -763,6 +763,125 @@
             }
         }
 
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #111827;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+            border-top: 1px solid var(--border-color);
+            z-index: 999;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-muted);
+            font-size: 11px;
+            cursor: pointer;
+            transition: 0.2s;
+            flex: 1;
+        }
+
+        .nav-item.active {
+            color: #fbbf24;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+        }
+
+        /* Chart Canvas Style */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            margin-top: 20px;
+            background: #111827;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .gmp-last-heard {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* Forms in Modals */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: #fbbf24;
+        }
+
+        .btn-applied {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid #10b981;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            width: 100%;
+        }
+
+        .btn-applied.active {
+            background: #10b981;
+            color: white;
+        }
+
+        .account-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .btn-delete-acc {
+            position: absolute;
+            right: 12px;
+            top: 12px;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
         /* Chart Canvas Style */
         .chart-container {
             position: relative;
@@ -871,6 +990,81 @@
                 <button class="btn-close" onclick="closeModal()">&times;</button>
             </div>
             <div class="modal-body" id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Account Modal -->
+    <div class="modal" id="account-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">My Demat Accounts</div>
+                <button class="btn-close" onclick="closeAccount()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="accounts-list"></div>
+                <hr style="border: 0.5px solid var(--border-color); margin: 20px 0;">
+                <h4 style="margin-bottom: 15px;">Add New Account</h4>
+                <div class="form-group">
+                    <label>Applicant Name</label>
+                    <input type="text" id="acc-name" class="form-input" placeholder="Full Name">
+                </div>
+                <div class="form-group">
+                    <label>PAN Number</label>
+                    <input type="text" id="acc-pan" class="form-input" placeholder="ABCDE1234F">
+                </div>
+                <div class="form-group">
+                    <label>Client ID / Demat No.</label>
+                    <input type="text" id="acc-client" class="form-input" placeholder="12345678">
+                </div>
+                <button class="btn btn-light-blue" style="width:100%;" onclick="saveAccount()">ADD ACCOUNT</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="location.reload()" style="flex:1;">
+            <span class="nav-icon">🏠</span>
+            <span>IPO</span>
+        </div>
+        <div class="nav-item" onclick="openAccount()" style="flex:1;">
+            <div
+                style="background: var(--accent-blue); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: -15px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); border: 2px solid #111827;">
+                <span class="nav-icon" style="color: white; font-size: 22px; margin-bottom: 0;">👤</span>
+            </div>
+            <span style="margin-top: 20px;">Account</span>
+        </div>
+        <div class="nav-item" onclick="openAllotment()" style="flex:1;">
+            <span class="nav-icon">📢</span>
+            <span>Allotment</span>
+        </div>
+    </nav>
+
+    <!-- Allotment Modal -->
+    <div class="modal" id="allotment-modal">
+        <div class="modal-content" style="background: #000;">
+            <div class="modal-header" style="border-bottom:none;">
+                <div class="modal-title">Check Allotment</div>
+                <button class="btn-close" onclick="closeAllotment()">&times;</button>
+            </div>
+            <div class="modal-body" style="padding: 10px;">
+                <select id="allot-ipo-select"
+                    style="width:100%; padding:14px; background:#111; border:1px solid #333; color:white; border-radius:10px; font-weight:600; margin-bottom:12px;">
+                    <option value="">Select IPO</option>
+                </select>
+
+                <button id="btn-check-all"
+                    style="width:100%; padding:14px; background:#fbbf24; color:black; border:none; border-radius:10px; font-weight:700; margin-bottom:20px; cursor:pointer; display:none;">CHECK
+                    ALL ACCOUNTS</button>
+
+                <div id="allotment-results">
+                    <!-- Cards will be rendered here -->
+                </div>
+
+                <div id="no-acc-msg" style="display:none; text-align:center; padding:40px; color:var(--text-muted);">
+                    No accounts found. Please add accounts in the "Account" tab first.
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1235,13 +1429,13 @@
                 };
 
                 card.innerHTML = `
-                    <div class="card-header">
-                        <div class="company-logo" style="background: ${getLogoColor(index)}">
-                            ${getInitials(ipo.name)}
+                    <div class="card-header" style="border:none; margin-bottom:0; padding-bottom:0; display:flex; align-items:center; gap:12px;">
+                        <div class="company-logo" style="width:50px; height:50px; border-radius:8px; ${ipo.logoUrl ? `background: white;` : `background: ${getLogoColor(index)};`}">
+                            ${ipo.logoUrl ? `<img src="${ipo.logoUrl}" style="width:100%; height:100%; object-fit:contain;">` : getInitials(ipo.name)}
                         </div>
                         <div class="card-title">
-                            <div class="company-name">${ipo.name}</div>
-                            <div class="company-board">${ipo.status.toUpperCase()} • ${ipo.board}</div>
+                            <div class="company-name" style="font-size:16px; font-weight:700;">${ipo.name}</div>
+                            <div class="company-board" style="font-size:12px; color:var(--text-secondary);">${ipo.status.toUpperCase()} • ${ipo.board}</div>
                         </div>
                     </div>
                 `;
@@ -1286,8 +1480,10 @@
                     const dateStr = new Date(n.timestamp).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
 
                     return `
-                    <div class="notification-item" id="notif-${n.id}" style="padding: 16px; position: relative; border-bottom: 1px solid var(--border-color);">
-                        <button onclick="dismissNotification('${n.id}')" style="position:absolute; right:12px; top:12px; background:var(--bg-card); border:1px solid var(--border-color); color:var(--text-muted); width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px;">&times;</button>
+                    <div class="notification-item" id="notif-${n.id}" 
+                         style="padding: 16px; position: relative; border-bottom: 1px solid var(--border-color); cursor: pointer;"
+                         onclick="openModalByNotification('${n.ipoName}')">
+                        <button onclick="event.stopPropagation(); dismissNotification('${n.id}')" style="position:absolute; right:12px; top:12px; background:var(--bg-card); border:1px solid var(--border-color); color:var(--text-muted); width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px; z-index: 10;">&times;</button>
                         <div class="company-logo" style="width: 48px; height: 48px; border-radius: 8px; background: #fff;">
                            <img src="https://i.postimg.cc/DSLRTB8m/file-00000000ff4471fd807ff67a7c231bf8-2.png" style="width: 100%; height: 100%; object-fit: contain;">
                         </div>
@@ -1489,6 +1685,10 @@
                         ` : ''}
                         
                         <button class="btn btn-light-blue" style="width: 100%;" onclick="showPremiumGraph('${ipo.id}')">PREMIUM GRAPH (GMP)</button>
+                        
+                        <button id="btn-applied-${ipo.id}" class="btn-applied ${isApplied(ipo.id) ? 'active' : ''}" onclick="toggleApplied('${ipo.id}')" style="margin-top: 4px;">
+                            ${isApplied(ipo.id) ? '✅ APPLIED' : '✚ MARK AS APPLIED'}
+                        </button>
                     </div>
                 </div>
 
@@ -1527,9 +1727,19 @@
                 
                 <div class="detail-section">
                     <div class="section-title">About Company</div>
-                    <p style="font-size:13px; line-height:1.6; color:var(--text-secondary);">
-                        ${ipo.business || ipo.description}
+                    ${ipo.description ? `
+                    <div style="font-size:14px; font-weight:700; color:var(--text-primary); margin-bottom:8px;">Short Description:</div>
+                    <p style="font-size:13px; line-height:1.6; color:var(--text-secondary); margin-bottom:16px; border-left: 3px solid var(--accent-blue); padding-left: 10px;">
+                        ${ipo.description}
                     </p>
+                    ` : ''}
+                    
+                    ${ipo.business ? `
+                    <div style="font-size:14px; font-weight:700; color:var(--text-primary); margin-bottom:8px;">Detailed Business:</div>
+                    <p style="font-size:13px; line-height:1.6; color:var(--text-secondary);">
+                        ${ipo.business}
+                    </p>
+                    ` : (ipo.description ? '' : 'No information available.')}
                 </div>
             `;
 
@@ -1546,6 +1756,28 @@
                 window.myChart = null;
             }
         }
+
+        window.isApplied = (ipoId) => {
+            const apps = JSON.parse(localStorage.getItem('myApplications') || '[]');
+            return apps.includes(ipoId);
+        };
+
+        window.toggleApplied = (ipoId) => {
+            let apps = JSON.parse(localStorage.getItem('myApplications') || '[]');
+            if (apps.includes(ipoId)) {
+                apps = apps.filter(id => id !== ipoId);
+            } else {
+                apps.push(ipoId);
+            }
+            localStorage.setItem('myApplications', JSON.stringify(apps));
+
+            const btn = document.getElementById(`btn-applied-${ipoId}`);
+            if (btn) {
+                const active = apps.includes(ipoId);
+                btn.classList.toggle('active', active);
+                btn.innerHTML = active ? '✅ APPLIED' : '✚ MARK AS APPLIED';
+            }
+        };
 
         window.showPremiumGraph = (id) => {
             const ipo = IPO_LIST.find(i => i.id === id);
@@ -1666,6 +1898,208 @@
         window.shareByIpoId = (id, event) => {
             const ipo = IPO_LIST.find(i => i.id === id);
             if (ipo) shareIPO(ipo, event);
+        };
+
+        window.openModalByNotification = (ipoName) => {
+            closeNotif();
+            const ipo = IPO_LIST.find(i => i.name.toLowerCase().includes(ipoName.toLowerCase()));
+            if (ipo) openModal(ipo);
+            else alert("IPO details not found.");
+        };
+
+        // Account Management
+        window.openAccount = () => {
+            document.getElementById('account-modal').classList.add('active');
+            renderAccounts();
+        };
+
+        window.closeAccount = () => {
+            document.getElementById('account-modal').classList.remove('active');
+        };
+
+        window.saveAccount = () => {
+            const name = document.getElementById('acc-name').value.trim();
+            const pan = document.getElementById('acc-pan').value.trim().toUpperCase();
+            const client = document.getElementById('acc-client').value.trim();
+
+            if (!name || !pan) return alert("Please enter Name and PAN");
+
+            const accounts = JSON.parse(localStorage.getItem('myAccounts') || '[]');
+            accounts.push({ id: Date.now(), name, pan, client });
+            localStorage.setItem('myAccounts', JSON.stringify(accounts));
+
+            document.getElementById('acc-name').value = '';
+            document.getElementById('acc-pan').value = '';
+            document.getElementById('acc-client').value = '';
+
+            renderAccounts();
+            showToast("Account saved locally!");
+        };
+
+        function renderAccounts() {
+            const list = document.getElementById('accounts-list');
+            const accounts = JSON.parse(localStorage.getItem('myAccounts') || '[]');
+
+            if (accounts.length === 0) {
+                list.innerHTML = '<div class="muted">No accounts saved yet.</div>';
+                return;
+            }
+
+            list.innerHTML = accounts.map(acc => `
+                <div class="account-card">
+                    <span class="btn-delete-acc" onclick="deleteAccount(${acc.id})">🗑️</span>
+                    <div style="font-weight:700; margin-bottom:4px;">${acc.name}</div>
+                    <div style="font-size:12px; color:var(--text-secondary);">PAN: ${acc.pan}</div>
+                    ${acc.client ? `<div style="font-size:12px; color:var(--text-secondary);">Demat: ${acc.client}</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        window.deleteAccount = (id) => {
+            let accounts = JSON.parse(localStorage.getItem('myAccounts') || '[]');
+            accounts = accounts.filter(acc => acc.id !== id);
+            localStorage.setItem('myAccounts', JSON.stringify(accounts));
+            renderAccounts();
+        };
+
+        // Allotment Checker Logic
+        window.openAllotment = () => {
+            const modal = document.getElementById('allotment-modal');
+            const select = document.getElementById('allot-ipo-select');
+            const checkAllBtn = document.getElementById('btn-check-all');
+            const accounts = JSON.parse(localStorage.getItem('myAccounts') || '[]');
+
+            modal.classList.add('active');
+
+            const validIpos = IPO_LIST.filter(i => i.registrarIpoId);
+            select.innerHTML = '<option value="">Select IPO</option>' +
+                validIpos.map(i => `<option value="${i.id}">${i.name}</option>`).join('');
+
+            document.getElementById('allotment-results').innerHTML = '';
+            document.getElementById('no-acc-msg').style.display = accounts.length === 0 ? 'block' : 'none';
+            checkAllBtn.style.display = 'none';
+
+            select.onchange = () => {
+                checkAllBtn.style.display = (select.value && accounts.length > 0) ? 'block' : 'none';
+                renderAllotmentCards();
+            };
+
+            checkAllBtn.onclick = async () => {
+                const accounts = JSON.parse(localStorage.getItem('myAccounts') || '[]');
+                for (let acc of accounts) {
+                    await checkSpecificAllotment(acc.id, select.value);
+                }
+            };
+
+            renderAllotmentCards();
+        };
+
+        window.closeAllotment = () => {
+            document.getElementById('allotment-modal').classList.remove('active');
+        };
+
+        function renderAllotmentCards() {
+            const container = document.getElementById('allotment-results');
+            const select = document.getElementById('allot-ipo-select');
+            const accounts = JSON.parse(localStorage.getItem('myAccounts') || '[]');
+            const ipoId = select.value;
+
+            if (!ipoId) {
+                container.innerHTML = '<div style="text-align:center; color:#555; padding:20px;">Please select an IPO to see status</div>';
+                return;
+            }
+
+            container.innerHTML = accounts.map(acc => `
+                <div class="account-card" style="background:#111; border:1px solid #222; margin-bottom:12px; border-radius:12px; padding:16px; display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <div style="font-weight:700; font-size:15px; text-transform:uppercase;">${acc.name}</div>
+                        <div style="font-size:12px; color:#666; font-family:monospace; margin-top:2px;">${acc.pan}</div>
+                        <div id="status-${acc.id}" style="font-size:13px; margin-top:8px; font-weight:600; color:#444;">Status: Click refresh to check</div>
+                    </div>
+                    <div style="display:flex; flex-direction:column; align-items:flex-end; gap:10px;">
+                        <span id="badge-${acc.id}" style="display:none; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:700; text-transform:uppercase;"></span>
+                        <div style="display:flex; gap:15px; color:#888;">
+                            <span onclick="checkSpecificAllotment('${acc.id}', '${ipoId}')" style="cursor:pointer; font-size:18px;">🔄</span>
+                            <span onclick="alert('Shared!')" style="cursor:pointer; font-size:18px;">🔗</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.checkSpecificAllotment = async (accId, ipoId) => {
+            const acc = JSON.parse(localStorage.getItem('myAccounts') || '[]').find(a => a.id == accId);
+            const ipo = IPO_LIST.find(i => i.id == ipoId);
+            const statusEl = document.getElementById(`status-${accId}`);
+            const badgeEl = document.getElementById(`badge-${accId}`);
+
+            if (!acc || !ipo) return;
+
+            statusEl.innerHTML = "Fetching from KFintech...";
+            statusEl.style.color = "#fbbf24";
+
+            const regType = (ipo.registrarType || "kfintech").toLowerCase();
+            const regId = ipo.registrarIpoId;
+            const pan = acc.pan.toUpperCase().trim();
+
+            try {
+                const proxyUrl = "https://api.allorigins.win/get?url=";
+                let targetUrl = "";
+
+                if (regType === 'kfintech' && regId) {
+                    // KFintech Real Search URL (Concept)
+                    targetUrl = `https://ris.kfintech.com/ipostatus/ipo.aspx/getstatus?ipo=${regId}&pan=${pan}`;
+
+                    const response = await fetch(proxyUrl + encodeURIComponent(targetUrl));
+                    const data = await response.json();
+                    const content = data.contents;
+
+                    if (content && (content.includes("Allotted Shares") || content.includes("SUCCESS"))) {
+                        statusEl.innerHTML = "KFINTECH: Allotment Found!";
+                        statusEl.style.color = "#10b981";
+                        badgeEl.innerHTML = "Allotted";
+                        badgeEl.style.background = "#064e3b";
+                    } else if (content && content.includes("No Record")) {
+                        statusEl.innerHTML = "KFINTECH: Not Applied / No Record";
+                        statusEl.style.color = "#6b7280";
+                        badgeEl.innerHTML = "No Record";
+                        badgeEl.style.background = "#1f2937";
+                    } else {
+                        statusEl.innerHTML = "KFINTECH: Not Allotted";
+                        statusEl.style.color = "#ef4444";
+                        badgeEl.innerHTML = "Not Allotted";
+                        badgeEl.style.background = "#450a0a";
+                    }
+                } else if (regType === 'linkintime' && regId) {
+                    targetUrl = `https://linkintime.co.in/Initial_Offer/SearchByPan?companyid=${regId}&pan=${pan}`;
+                    const response = await fetch(proxyUrl + encodeURIComponent(targetUrl));
+                    const data = await response.json();
+
+                    if (data.contents && data.contents.toLowerCase().includes("allotted")) {
+                        statusEl.innerHTML = "LINKINTIME: Allotment Found!";
+                        statusEl.style.color = "#10b981";
+                        badgeEl.innerHTML = "Allotted";
+                        badgeEl.style.background = "#064e3b";
+                    } else {
+                        statusEl.innerHTML = "LINKINTIME: Not Allotted";
+                        statusEl.style.color = "#ef4444";
+                        badgeEl.innerHTML = "Not Allotted";
+                        badgeEl.style.background = "#450a0a";
+                    }
+                } else {
+                    statusEl.innerHTML = "Opening Registrar Portal...";
+                    setTimeout(() => {
+                        window.open(ipo.allotmentUrl || "https://ris.kfintech.com/ipostatus/", "_blank");
+                    }, 500);
+                }
+                badgeEl.style.display = 'block';
+            } catch (e) {
+                console.error(e);
+                statusEl.innerHTML = "Redirecting to KFintech...";
+                setTimeout(() => {
+                    window.open(ipo.allotmentUrl || "https://ris.kfintech.com/ipostatus/", "_blank");
+                }, 800);
+            }
         };
 
         window.setFilter = setFilter;
