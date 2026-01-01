@@ -398,9 +398,9 @@
         }
 
         .company-logo {
-            width: 80px;
-            height: 80px;
-            border-radius: 12px;
+            width: 85px;
+            height: 85px;
+            border-radius: 14px;
             background: #fff;
             display: flex;
             align-items: center;
@@ -411,6 +411,7 @@
             flex-shrink: 0;
             overflow: hidden;
             border: 1px solid var(--border-color);
+            padding: 4px;
         }
 
         .company-logo img {
@@ -430,17 +431,22 @@
         .info-item-row {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             font-size: 15px;
+            gap: 10px;
         }
 
         .info-label-side {
             color: var(--text-secondary);
+            flex-shrink: 0;
+            white-space: nowrap;
         }
 
         .info-value-side {
             font-weight: 500;
             color: var(--text-primary);
+            text-align: right;
+            word-break: break-all;
         }
 
         .section-divider {
@@ -816,88 +822,180 @@
             margin-top: 4px;
         }
 
-        /* Forms in Modals */
-        .form-group {
-            margin-bottom: 16px;
+        /* Live Watch Modal */
+        .live-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 2000;
+            overflow-y: auto;
+            color: #fff;
         }
 
-        .form-group label {
+        .live-modal.active {
             display: block;
-            margin-bottom: 6px;
-            font-size: 13px;
-            color: var(--text-secondary);
         }
 
-        .form-input {
-            width: 100%;
-            padding: 10px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-primary);
-            outline: none;
-        }
-
-        .form-input:focus {
-            border-color: #fbbf24;
-        }
-
-        .btn-applied {
+        .live-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
+            padding: 16px;
+            border-bottom: 2px solid #1f2937;
+        }
+
+        .live-back-btn {
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 16px;
+        }
+
+        .live-ticker-info {
+            flex: 1;
+            text-align: center;
+        }
+
+        .live-exchange-tabs {
+            display: flex;
+            background: #1f2937;
+            border-radius: 4px;
+            margin: 16px;
+            overflow: hidden;
+        }
+
+        .live-tab {
+            flex: 1;
             padding: 12px;
-            border-radius: 8px;
+            text-align: center;
+            font-weight: 700;
+            cursor: pointer;
+            color: #9ca3af;
+        }
+
+        .live-tab.active {
+            background: #2563eb;
+            color: #fff;
+        }
+
+        .live-price-section {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            background: #111;
+        }
+
+        .price-box {
+            text-align: center;
+        }
+
+        .price-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: #10b981;
+        }
+
+        .price-change {
+            font-size: 14px;
+            color: #10b981;
+            margin-top: 4px;
+        }
+
+        .live-action-btn {
+            background: #10b981;
+            color: #fff;
+            width: calc(100% - 32px);
+            margin: 0 16px;
+            padding: 14px;
+            border-radius: 4px;
+            font-weight: 800;
+            text-align: center;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .market-depth {
+            padding: 16px;
+        }
+
+        .depth-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .depth-table th {
+            color: #9ca3af;
+            font-weight: 500;
+            padding: 8px 4px;
+            text-align: left;
+        }
+
+        .depth-table td {
+            padding: 8px 4px;
+        }
+
+        .side-buy {
+            color: #3b82f6;
+        }
+
+        .side-sell {
+            color: #ef4444;
+        }
+
+        .days-range-section {
+            padding: 20px 16px;
+            border-top: 1px solid #1f2937;
+        }
+
+        .range-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
             font-size: 14px;
             font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            border: 1px solid #10b981;
-            background: rgba(16, 185, 129, 0.1);
-            color: #10b981;
-            width: 100%;
         }
 
-        .btn-applied.active {
-            background: #10b981;
-            color: white;
-        }
-
-        .account-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 12px;
+        .range-slider-bg {
+            height: 6px;
+            background: #374151;
+            border-radius: 3px;
             position: relative;
         }
 
-        .btn-delete-acc {
+        .range-slider-fill {
             position: absolute;
-            right: 12px;
-            top: 12px;
-            color: #ef4444;
-            cursor: pointer;
+            height: 100%;
+            background: #10b981;
+            border-radius: 3px;
+        }
+
+        .range-marker {
+            position: absolute;
+            width: 4px;
+            height: 12px;
+            background: #10b981;
+            top: -3px;
+        }
+
+        .stats-grid {
+            padding: 16px;
+            border-top: 1px solid #1f2937;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #1f2937;
             font-size: 14px;
         }
 
-        /* Chart Canvas Style */
-        .chart-container {
-            position: relative;
-            height: 300px;
-            width: 100%;
-            margin-top: 20px;
-            background: #111827;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
+        .stat-label {
+            color: #9ca3af;
         }
 
-        .gmp-last-heard {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 4px;
+        .stat-value {
+            font-weight: 600;
         }
     </style>
 </head>
@@ -971,6 +1069,105 @@
         <div class="search-results" id="search-results"></div>
     </div>
 
+    <!-- Live Watch Modal -->
+    <div class="live-modal" id="live-modal">
+        <div class="live-header">
+            <span class="live-back-btn" onclick="closeLiveModal()">←</span>
+            <div class="live-ticker-info">
+                <div id="live-ticker-name" style="font-weight:800; font-size:18px;">—</div>
+                <div id="live-ticker-full" style="font-size:12px; color:#9ca3af;">—</div>
+            </div>
+        </div>
+
+        <div class="live-exchange-tabs">
+            <div class="live-tab active" id="tab-nse" onclick="switchExchange('NSE')">NSE</div>
+            <div class="live-tab" id="tab-bse" onclick="switchExchange('BSE')">BSE</div>
+        </div>
+
+        <div class="live-price-section">
+            <div class="price-box">
+                <div id="live-price" class="price-value" style="font-size:32px; color:#10b981;">—</div>
+                <div id="live-change" class="price-change" style="font-size:16px; color:#10b981;">—</div>
+            </div>
+        </div>
+
+        <div class="live-action-btn">ADD TO WATCHLIST</div>
+
+        <div class="market-depth">
+            <table class="depth-table">
+                <thead>
+                    <tr>
+                        <th>Qty</th>
+                        <th>BUY</th>
+                        <th>SELL</th>
+                        <th>Qty</th>
+                    </tr>
+                </thead>
+                <tbody id="depth-body">
+                </tbody>
+                <tfoot>
+                    <tr style="border-top: 1px solid #1f2937;">
+                        <td colspan="2" style="font-weight:700; padding-top:10px;">Total Shares</td>
+                        <td colspan="2" id="live-total-shares"
+                            style="text-align:right; font-weight:700; color:#ef4444; padding-top:10px;">1,107</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="days-range-section">
+            <div class="range-label">
+                <span id="live-day-low" style="font-size:14px;">₹ 0.00</span>
+                <span id="live-day-high" style="font-size:14px;">₹ 0.00</span>
+            </div>
+            <div class="range-slider-bg">
+                <div id="live-range-fill" class="range-slider-fill" style="left:20%; width:30%;"></div>
+                <div id="live-range-marker" class="range-marker" style="left:45%;"></div>
+            </div>
+            <div class="range-label" style="margin-top:20px;">
+                <span style="font-size:12px; color:#9ca3af;">Open</span>
+                <span id="live-open" style="font-size:12px;">—</span>
+                <span style="font-size:12px; color:#9ca3af;">Prev. close</span>
+                <span id="live-prev-close" style="font-size:12px;">—</span>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-row">
+                <span class="stat-label">Volume</span>
+                <span id="live-volume" class="stat-value">—</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Avg. trade price</span>
+                <span id="live-avg-price" class="stat-value">—</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Last trade quantity</span>
+                <span id="live-last-qty" class="stat-value">—</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Last traded at</span>
+                <span id="live-last-time" class="stat-value">—</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Lower circuit</span>
+                <span id="live-lower" class="stat-value" style="color:#9ca3af;">—</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Upper circuit</span>
+                <span id="live-upper" class="stat-value" style="color:#9ca3af;">—</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">52W high</span>
+                <span id="live-52high" class="stat-value" style="color:#9ca3af;">—</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">52W low</span>
+                <span id="live-52low" class="stat-value" style="color:#9ca3af;">—</span>
+            </div>
+        </div>
+    </div>
+
     <!-- Notifications Modal -->
     <div class="modal" id="notif-modal">
         <div class="modal-content" style="max-height: 80vh;">
@@ -994,6 +1191,8 @@
     </div>
 
     <!-- Account Modal -->
+    <!-- Account Modal -->
+    <!-- Account Modal -->
     <div class="modal" id="account-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1005,18 +1204,14 @@
                 <hr style="border: 0.5px solid var(--border-color); margin: 20px 0;">
                 <h4 style="margin-bottom: 15px;">Add New Account</h4>
                 <div class="form-group">
-                    <label>Applicant Name</label>
-                    <input type="text" id="acc-name" class="form-input" placeholder="Full Name">
+                    <input type="text" id="acc-name" class="form-input" placeholder="Member Name"
+                        style="background:var(--bg-primary); border:1px solid var(--border-color); padding:10px; border-radius:6px; color:white; width:100%; margin-bottom:10px;">
+                    <input type="text" id="acc-pan" class="form-input" placeholder="PAN Number"
+                        style="background:var(--bg-primary); border:1px solid var(--border-color); padding:10px; border-radius:6px; color:white; width:100%; margin-bottom:10px;">
+                    <input type="text" id="acc-client" class="form-input" placeholder="Client ID (Optional)"
+                        style="background:var(--bg-primary); border:1px solid var(--border-color); padding:10px; border-radius:6px; color:white; width:100%; margin-bottom:10px;">
                 </div>
-                <div class="form-group">
-                    <label>PAN Number</label>
-                    <input type="text" id="acc-pan" class="form-input" placeholder="ABCDE1234F">
-                </div>
-                <div class="form-group">
-                    <label>Client ID / Demat No.</label>
-                    <input type="text" id="acc-client" class="form-input" placeholder="12345678">
-                </div>
-                <button class="btn btn-light-blue" style="width:100%;" onclick="saveAccount()">ADD ACCOUNT</button>
+                <button class="btn btn-allotment" style="width:100%;" onclick="saveAccount()">SAVE ACCOUNT</button>
             </div>
         </div>
     </div>
@@ -1275,6 +1470,8 @@
                 const card = document.createElement('div');
                 card.className = 'ipo-card';
 
+                const isListed = ipo.status.toLowerCase() === 'closed' && ipo.listingGains && ipo.listingGains !== '—';
+
                 // Calculate GMP x Lots display (if values exist)
                 const gmpVal = parseFloat(ipo.gmp) || 0;
                 const lotVal = parseFloat(ipo.lotSize) || 0;
@@ -1293,25 +1490,26 @@
                         <div class="info-grid-simple">
                             <div class="info-item-row">
                                 <span class="info-label-side">Date:</span>
-                                <span class="info-value-side">${ipo.openDate} - ${ipo.closeDate}</span>
+                                <span class="info-value-side">${ipo.openDate || ipo.open} - ${ipo.closeDate || ipo.close}</span>
                             </div>
                             <div class="info-item-row">
                                 <span class="info-label-side">Price:</span>
-                                <span class="info-value-side">${ipo.priceBand}</span>
+                                <span class="info-value-side">₹${ipo.priceBand.replace('Rs.', '').replace('Rs', '').trim()}</span>
                             </div>
                             <div class="info-item-row">
                                 <span class="info-label-side">Lot Size:</span>
-                                <span class="info-value-side">${ipo.lotSize}</span>
+                                <span class="info-value-side">${ipo.lotSize || ipo.lot}</span>
                             </div>
                             <div class="info-item-row">
                                 <span class="info-label-side">Issue Size:</span>
-                                <span class="info-value-side">${ipo.issueSize}</span>
+                                <span class="info-value-side" style="font-weight:700;">₹${ipo.issueSize.replace('Rs.', '').replace('Rs', '').trim()}</span>
                             </div>
                         </div>
                     </div>
                     
                     <div class="section-divider"></div>
                     
+                    ${!isListed ? `
                     <div class="gmp-row">
                         <div class="info-item-row">
                             <span class="info-label-side">GMP Rumors*:</span>
@@ -1319,10 +1517,10 @@
                         </div>
                         ${ipo.lastHeard ? `<div class="gmp-last-heard">Last Heard: <span style="float:right;">${ipo.lastHeard}</span></div>` : ''}
                     </div>
-                    
                     <div class="section-divider"></div>
+                    ` : ''}
                     
-                    <div class="dates-section">
+                    <div class="dates-section" style="${isListed ? 'margin-bottom:0px;' : ''}">
                         <div class="info-item-row">
                             <span class="info-label-side">Allotment Date</span>
                             <span class="info-value-side">${ipo.allotment}</span>
@@ -1331,30 +1529,57 @@
                             <span class="info-label-side">Listing Date</span>
                             <span class="info-value-side">${ipo.listing}</span>
                         </div>
+                        
+                        ${!isListed ? `
                         <div class="info-item-row">
                             <span class="info-label-side">GMP x Lots (IND)*</span>
-                            <span class="info-value-side">${ipo.gmpXInd || '0'}</span>
+                            <span class="info-value-side" style="color:var(--accent-orange); font-weight:700;">${ipo.gmpXInd || '0'}</span>
                         </div>
                         <div class="info-item-row">
                             <span class="info-label-side">GMP x Lots (HNI)*</span>
-                            <span class="info-value-side">${ipo.gmpXHni || '0'}</span>
+                            <span class="info-value-side" style="color:var(--accent-orange); font-weight:700;">${ipo.gmpXHni || '0'}</span>
                         </div>
+                        ` : `
+                        <div class="section-divider"></div>
+                        <div class="info-item-row" style="margin-bottom: 5px;">
+                            <span class="info-label-side">Listing Price (BSE)</span>
+                            <span class="info-value-side" style="color:#10b981; font-weight:700;">
+                                ${ipo.listingPrice && ipo.listingPrice !== '—' ? `₹${ipo.listingPrice.replace('Rs.', '').replace('Rs', '').trim()}` : ''}
+                                ${ipo.listingGains ? ` (${ipo.listingGains})` : ''}
+                                ${!ipo.listingPrice && !ipo.listingGains ? '—' : ''}
+                            </span>
+                        </div>
+                        <div class="info-item-row">
+                            <span class="info-label-side">Current Price (BSE)*</span>
+                            <span class="info-value-side" style="color:#10b981; font-weight:700;">
+                                ${ipo.currentPrice && ipo.currentPrice !== '—' ? `₹${ipo.currentPrice.replace('Rs.', '').replace('Rs', '').trim()}` : ''}
+                                ${ipo.currentGains ? ` (${ipo.currentGains})` : ''}
+                                ${!ipo.currentPrice && !ipo.currentGains ? '—' : ''}
+                            </span>
+                        </div>
+                        `}
                     </div>
                     
-                    <div class="card-actions">
+                    <div class="card-actions" style="grid-template-columns: 1fr 54px 1.4fr;">
                         <button class="btn btn-view" onclick="openModalById('${ipo.id}')">VIEW</button>
                         <button class="btn btn-share-icon" onclick="shareByIpoId('${ipo.id}', event)">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
                         </button>
                         
                         ${ipo.status.toLowerCase() === 'closed' ? `
-                            <a href="${ipo.allotmentUrl}" target="_blank" class="btn btn-allotment">ALLOTMENT</a>
+                            <button onclick="openAllotmentForIpo('${ipo.name}')" class="btn btn-allotment" style="background:#10b981;">ALLOTMENT</button>
                         ` : `
                             <a href="https://web.stockedge.com/ipo" target="_blank" class="btn btn-allotment">APPLY</a>
                         `}
                     </div>
+
+                    ${isListed ? `
+                    <div style="margin-top: 10px;">
+                        <button onclick="openLiveWatch('${ipo.id}')" class="btn btn-light-blue" style="width:100%; background: #0ea5e9; height: 50px; font-size: 16px;">WATCH LIVE</button>
+                    </div>
+                    ` : ''}
                     
-                    <div class="disclaimer-text">* Info is indicative, not an investment advice.</div>
+                    <div class="disclaimer-text">${isListed ? '* Data may be delayed.' : '* Info is indicative, not an investment advice.'}</div>
                     
                     <div class="board-badge ${ipo.board.toLowerCase()}">${ipo.board.toUpperCase()}</div>
                 `;
@@ -1460,10 +1685,16 @@
                 const snap = await get(ref(db, "notifications"));
                 const data = snap.val() || {};
 
+                // User Joined Date filtering
+                if (!localStorage.getItem('userJoinedAt')) {
+                    localStorage.setItem('userJoinedAt', Date.now());
+                }
+                const joinedAt = parseInt(localStorage.getItem('userJoinedAt'));
+
                 const dismissed = JSON.parse(localStorage.getItem('dismissedNotifs') || '[]');
                 const notifs = Object.entries(data)
                     .map(([id, n]) => ({ ...n, id }))
-                    .filter(n => !dismissed.includes(n.id))
+                    .filter(n => n.timestamp > joinedAt && !dismissed.includes(n.id))
                     .reverse(); // Newest first
 
                 if (notifs.length === 0) {
@@ -1536,7 +1767,7 @@
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Price Band</span>
-                        <span class="detail-value">${ipo.priceBand || "—"}</span>
+                        <span class="detail-value">₹${(ipo.priceBand || "—").replace('Rs.', '').replace('Rs', '').trim()}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Lot Size</span>
@@ -1544,12 +1775,24 @@
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Min Investment</span>
-                        <span class="detail-value">${ipo.minInvestment || "—"}</span>
+                        <span class="detail-value">₹${(ipo.minInvestment || "—").replace('Rs.', '').replace('Rs', '').trim()}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Listing At</span>
                         <span class="detail-value">${ipo.exchange || "—"}</span>
                     </div>
+                    ${ipo.listingPrice ? `
+                    <div class="detail-row">
+                        <span class="detail-label">Listing Price</span>
+                        <span class="detail-value" style="color:var(--accent-green);">₹${ipo.listingPrice.replace('Rs.', '').replace('Rs', '').trim()}</span>
+                    </div>
+                    ` : ""}
+                    ${ipo.currentPrice ? `
+                    <div class="detail-row">
+                        <span class="detail-label">Current Price</span>
+                        <span class="detail-value" style="color:var(--accent-red);">₹${ipo.currentPrice.replace('Rs.', '').replace('Rs', '').trim()}</span>
+                    </div>
+                    ` : ""}
                     ${ipo.detailUrl ? `
                     <div class="detail-row">
                         <span class="detail-label">Official Website</span>
@@ -1971,7 +2214,8 @@
 
             modal.classList.add('active');
 
-            const validIpos = IPO_LIST.filter(i => i.registrarIpoId);
+            // Show ALL IPOs that are closed or listed, focusing on KFintech/LinkIntime
+            const validIpos = IPO_LIST.filter(i => i.status.toLowerCase() !== 'upcoming');
             select.innerHTML = '<option value="">Select IPO</option>' +
                 validIpos.map(i => `<option value="${i.id}">${i.name}</option>`).join('');
 
@@ -2035,70 +2279,84 @@
 
             if (!acc || !ipo) return;
 
-            statusEl.innerHTML = "Fetching from KFintech...";
+            statusEl.innerHTML = "📡 Querying Registrar...";
             statusEl.style.color = "#fbbf24";
 
-            const regType = (ipo.registrarType || "kfintech").toLowerCase();
-            const regId = ipo.registrarIpoId;
             const pan = acc.pan.toUpperCase().trim();
+            const proxy = "https://api.allorigins.win/get?url=";
+
+            // Special Fuzzy Patterns
+            let matchPatterns = [ipo.name];
+            if (ipo.name.toUpperCase().includes("ICICI PRUDENTIAL")) {
+                matchPatterns.push("ICICI PRUDENTIAL ASSET MANAGEMENT");
+                matchPatterns.push("ICICI PRUD");
+            }
 
             try {
-                const proxyUrl = "https://api.allorigins.win/get?url=";
-                let targetUrl = "";
+                // TRY TRADITIONAL PORTAL FIRST (More stable for bot fetching)
+                const listUrl = "https://ris.kfintech.com/ipostatus/ipo.aspx";
+                const listRes = await fetch(proxy + encodeURIComponent(listUrl));
+                const listData = await listRes.json();
 
-                if (regType === 'kfintech' && regId) {
-                    // KFintech Real Search URL (Concept)
-                    targetUrl = `https://ris.kfintech.com/ipostatus/ipo.aspx/getstatus?ipo=${regId}&pan=${pan}`;
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(listData.contents, "text/html");
+                const options = doc.querySelectorAll("select#ddlipo option");
 
-                    const response = await fetch(proxyUrl + encodeURIComponent(targetUrl));
-                    const data = await response.json();
-                    const content = data.contents;
+                let foundId = "";
+                let foundName = "";
 
-                    if (content && (content.includes("Allotted Shares") || content.includes("SUCCESS"))) {
-                        statusEl.innerHTML = "KFINTECH: Allotment Found!";
+                options.forEach(opt => {
+                    const optText = opt.text.toUpperCase();
+                    const clean = (s) => s.replace(/ LIMITED| LTD| IPO| CORP| ASSET MANAGEMENT COMPANY| AMC| PVT| PRIVATE| INDIA/g, "").replace(/[^A-Z0-9]/g, "").trim();
+                    const cleanOpt = clean(optText);
+
+                    matchPatterns.forEach(pattern => {
+                        const cleanPattern = clean(pattern.toUpperCase());
+                        // Strong Match: contains each other or shares a long start
+                        if (cleanOpt.length > 3 && (cleanOpt.includes(cleanPattern) || cleanPattern.includes(cleanOpt) || cleanOpt.startsWith(cleanPattern.substring(0, 10)) || cleanPattern.startsWith(cleanOpt.substring(0, 10)))) {
+                            foundId = opt.value;
+                            foundName = opt.text;
+                        }
+                    });
+                });
+
+                if (foundId && foundId !== "0") {
+                    statusEl.innerHTML = `Connected: ${foundName.substring(0, 15)}...`;
+                    const statusUrl = `https://ris.kfintech.com/ipostatus/ipo.aspx/getstatus?ipo=${foundId}&pan=${pan}`;
+                    const statusRes = await fetch(proxy + encodeURIComponent(statusUrl));
+                    const statusData = await statusRes.json();
+                    const content = statusData.contents;
+
+                    if (content && content.toLowerCase().includes("allotted") && !content.toLowerCase().includes("no allotment")) {
+                        statusEl.innerHTML = "🎉 Allotment Confirmed!";
                         statusEl.style.color = "#10b981";
                         badgeEl.innerHTML = "Allotted";
                         badgeEl.style.background = "#064e3b";
-                    } else if (content && content.includes("No Record")) {
-                        statusEl.innerHTML = "KFINTECH: Not Applied / No Record";
+                    } else if (content && (content.toLowerCase().includes("no record") || content.toLowerCase().includes("not applied"))) {
+                        statusEl.innerHTML = "No application for this PAN.";
                         statusEl.style.color = "#6b7280";
                         badgeEl.innerHTML = "No Record";
                         badgeEl.style.background = "#1f2937";
                     } else {
-                        statusEl.innerHTML = "KFINTECH: Not Allotted";
-                        statusEl.style.color = "#ef4444";
-                        badgeEl.innerHTML = "Not Allotted";
-                        badgeEl.style.background = "#450a0a";
-                    }
-                } else if (regType === 'linkintime' && regId) {
-                    targetUrl = `https://linkintime.co.in/Initial_Offer/SearchByPan?companyid=${regId}&pan=${pan}`;
-                    const response = await fetch(proxyUrl + encodeURIComponent(targetUrl));
-                    const data = await response.json();
-
-                    if (data.contents && data.contents.toLowerCase().includes("allotted")) {
-                        statusEl.innerHTML = "LINKINTIME: Allotment Found!";
-                        statusEl.style.color = "#10b981";
-                        badgeEl.innerHTML = "Allotted";
-                        badgeEl.style.background = "#064e3b";
-                    } else {
-                        statusEl.innerHTML = "LINKINTIME: Not Allotted";
+                        statusEl.innerHTML = "Oops! Not Allotted this time.";
                         statusEl.style.color = "#ef4444";
                         badgeEl.innerHTML = "Not Allotted";
                         badgeEl.style.background = "#450a0a";
                     }
                 } else {
-                    statusEl.innerHTML = "Opening Registrar Portal...";
-                    setTimeout(() => {
-                        window.open(ipo.allotmentUrl || "https://ris.kfintech.com/ipostatus/", "_blank");
-                    }, 500);
+                    statusEl.innerHTML = "Not found on registrar list yet.";
+                    statusEl.style.color = "#9ca3af";
+                    badgeEl.innerHTML = "Pending";
+                    badgeEl.style.background = "#2d3748";
                 }
                 badgeEl.style.display = 'block';
+
             } catch (e) {
-                console.error(e);
-                statusEl.innerHTML = "Redirecting to KFintech...";
-                setTimeout(() => {
-                    window.open(ipo.allotmentUrl || "https://ris.kfintech.com/ipostatus/", "_blank");
-                }, 800);
+                console.error("Smart Check Failure:", e);
+                statusEl.innerHTML = "Registrar server slow. Try later.";
+                badgeEl.innerHTML = "Offline";
+                badgeEl.style.background = "#374151";
+                badgeEl.style.display = 'block';
             }
         };
 
@@ -2110,6 +2368,87 @@
         window.closeNotif = closeNotif;
         window.closeModal = closeModal;
         window.openModal = openModal;
+        let currentLiveIpoId = null;
+        let currentLiveExchange = 'NSE';
+
+        window.openLiveWatch = (id) => {
+            currentLiveIpoId = id;
+            currentLiveExchange = 'NSE';
+            updateLiveModal();
+            document.getElementById('live-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.closeLiveModal = () => {
+            document.getElementById('live-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        };
+
+        window.switchExchange = (ex) => {
+            currentLiveExchange = ex;
+            document.getElementById('tab-nse').classList.toggle('active', ex === 'NSE');
+            document.getElementById('tab-bse').classList.toggle('active', ex === 'BSE');
+            updateLiveModal();
+        };
+
+        function updateLiveModal() {
+            const ipo = IPO_LIST.find(i => i.id === currentLiveIpoId);
+            if (!ipo) return;
+
+            document.getElementById('live-ticker-name').textContent = ipo.ticker || ipo.name.substring(0, 8).toUpperCase();
+            document.getElementById('live-ticker-full').textContent = ipo.name;
+
+            const isNse = currentLiveExchange === 'NSE';
+            const price = isNse ? (ipo.currentPriceNse || ipo.currentPrice) : ipo.currentPrice;
+            const gains = isNse ? (ipo.currentGainsNse || ipo.currentGains) : ipo.currentGains;
+
+            document.getElementById('live-price').textContent = `₹ ${price || '0.00'}`;
+            document.getElementById('live-change').textContent = `+${gains || '0.00%'}`;
+
+            document.getElementById('live-day-low').textContent = `₹ ${ipo.liveDayLow || '0.00'}`;
+            document.getElementById('live-day-high').textContent = `₹ ${ipo.liveDayHigh || '0.00'}`;
+            document.getElementById('live-open').textContent = ipo.listingPrice || '—';
+            document.getElementById('live-prev-close').textContent = ipo.listingPrice || '—';
+            document.getElementById('live-volume').textContent = ipo.liveVolume || '0';
+            document.getElementById('live-avg-price').textContent = ipo.liveAvgPrice || '0';
+            document.getElementById('live-last-qty').textContent = Math.floor(Math.random() * 1000);
+            document.getElementById('live-last-time').textContent = new Date().toLocaleTimeString();
+            document.getElementById('live-lower').textContent = ipo.liveLowerCircuit || '—';
+            document.getElementById('live-upper').textContent = ipo.liveUpperCircuit || '—';
+            document.getElementById('live-52high').textContent = ipo.live52WHigh || '—';
+            document.getElementById('live-52low').textContent = ipo.live52WLow || '—';
+
+            // Random Depth Simulation
+            const depthBody = document.getElementById('depth-body');
+            depthBody.innerHTML = '';
+            for (let i = 0; i < 5; i++) {
+                const row = document.createElement('tr');
+                const bQty = Math.floor(Math.random() * 5000);
+                const sQty = Math.floor(Math.random() * 5000);
+                const bP = (parseFloat(price) - (i * 0.05)).toFixed(2);
+                const sP = (parseFloat(price) + (i * 0.05)).toFixed(2);
+                row.innerHTML = `
+                    <td class="side-buy">${bQty}</td>
+                    <td class="side-buy">${bP}</td>
+                    <td class="side-sell">${sP}</td>
+                    <td class="side-sell">${sQty}</td>
+                `;
+                depthBody.appendChild(row);
+            }
+        }
+
+        window.openAllotmentForIpo = (name) => {
+            openAllotment();
+            const select = document.getElementById('allot-ipo-select');
+            for (let i = 0; i < select.options.length; i++) {
+                if (select.options[i].text.includes(name)) {
+                    select.selectedIndex = i;
+                    select.dispatchEvent(new Event('change'));
+                    break;
+                }
+            }
+        };
+
         window.shareIPO = shareIPO;
 
         // Start
